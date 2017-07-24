@@ -21,7 +21,8 @@ static const uint32_t GPSBaud = 9600;
 
 uint8_t key[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31};
 uint8_t iv[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
-
+String id="123456789";
+int a;
 
 // The TinyGPS++ object
 TinyGPSPlus gps;
@@ -43,43 +44,45 @@ void setup(){
 }
 
 void loop(){
-  int a=digitalRead(3);
-  char data[] = "L06.870808,79.880714,0718,184455";// L<latitude>,<longitude>,<date>,<time>
-  aes_context ctx;
-            ctx = aes256_cbc_enc_start(key, iv);
-            aes_cbc_enc_continue(ctx, data, 32);
-            aes_cbc_enc_finish(ctx);
-            Serial.println(data);
-            delay(1000);
-//  while (ss.available() > 0 && a==1){
-//    Serial.println("gps is available");
-//    delay(2);
-//    if (gps.encode(ss.read())){
-//      if (gps.location.isValid()){
-//            //String data1=getGPSData();
+  a=digitalRead(3);
+
 //            aes_context ctx;
 //            ctx = aes256_cbc_enc_start(key, iv);
 //            aes_cbc_enc_continue(ctx, data, 32);
 //            aes_cbc_enc_finish(ctx);
 //            Serial.println(data);
 //            delay(1000);
-//        }else{
-//            return(F("PGS Not Fixed"));
-//            delay(1000);
-//        }
-//      delay(10);
-//    }
-//    else{
-//      Serial.println("Error , cannot read gps");
-//      delay(1000);
-//      }
-//  }
-//
-//  if (millis() > 5000 && gps.charsProcessed() < 10){
-//    Serial.println(F("No GPS detected: check wiring."));
-//    //while(true)
-//    delay(1000);
-//  }
+  while (ss.available() > 0 && a==1){
+    //Serial.println("gps is available");
+    delay(2);
+    if (1){//(gps.encode(ss.read())){
+      if (1){//(gps.location.isValid()){
+            String data1=getGPSData();
+            char data[32] = "";//"L06.870808,79.880714,0718,184455";//L<latitude>,<longitude>,<date>,<time>
+            strncpy(data,data1.c_str(),32);
+            aes_context ctx;
+            ctx = aes256_cbc_enc_start(key, iv);
+            aes_cbc_enc_continue(ctx, data, 32);
+            aes_cbc_enc_finish(ctx);
+            Serial.println(id+","+data);
+            delay(1000);
+        }else{
+            Serial.println(id+","+"PGS_Not_Fixed");
+            delay(1000);
+        }
+      delay(10);
+    }
+    else{
+      Serial.println(id+","+"Cannot_read_gps");
+      delay(1000);
+      }
+  }
+
+  if (millis() > 5000 && gps.charsProcessed() < 10){
+    Serial.println("No GPS detected: check wiring.");
+    //while(true)
+    delay(1000);
+  }
 
 }
 
@@ -87,7 +90,7 @@ void loop(){
 String getGPSData(){
   String disp="";
 
-    //disp=disp+"L:";
+    disp=disp+"L";
     if (gps.location.isValid()){
       if (int(gps.location.lat())< 10) disp=disp+"0";
       disp=disp+String(gps.location.lat(),6);
@@ -97,6 +100,7 @@ String getGPSData(){
     }
 
     else{
+      disp=disp+"99.999999,99.999999";
       //Serial.print(F("INVALID"));
     }
 
@@ -110,16 +114,17 @@ String getGPSData(){
 
     }
     else{
+      disp=disp+"9999";
       //Serial.print(F("INVALID"));
     }
-
+    
+    disp=disp+",";//" T:";
     if (gps.time.isValid()){
       int hrs=gps.time.hour()+5;
       int mns=gps.time.minute()+30;
       hrs=hrs+mns/60;
       mns=mns%60;
 
-      disp=disp+",";//" T:";
       if (hrs< 10) disp=disp+"0";
       disp=disp+hrs;
       //disp=disp+":";
@@ -134,6 +139,7 @@ String getGPSData(){
 
     }
     else{
+      disp=disp+"999999";
       //Serial.print(F("INVALID"));
     }
     //Serial.println(disp);

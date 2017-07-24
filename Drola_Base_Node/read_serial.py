@@ -50,9 +50,9 @@ aes = AESCipher(str(key),str(iv))
 
 while 1:
     data=ser.readline()
-    print data,len(data)
-    if len(data) > 30:
-        plain = aes.decrypt(data[:32])
+    print data[:-1]#,len(data)
+    if len(data) > 40:
+        plain = aes.decrypt(data[10:42])
         print "decrypted :", plain
     else:
         continue
