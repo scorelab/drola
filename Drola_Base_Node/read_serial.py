@@ -1,13 +1,9 @@
 #!/usr/bin/env python
 
 
-#BS = 16
-#pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
-#unpad = lambda s : s[:-ord(s[len(s)-1:])]
-
-import base64
 from Crypto.Cipher import AES
 from Crypto import Random
+import json
 
 import serial, time
 ser = serial.Serial('/dev/ttyUSB0',9600)
@@ -19,14 +15,10 @@ class AESCipher:
         self.iv=iv
 
     def encrypt( self, raw ):
-        #raw = pad(raw)
         cipher = AES.new( self.key, AES.MODE_CBC, self.iv )
-        #return base64.b64encode( iv + cipher.encrypt( raw ) )
         return ( self.iv + cipher.encrypt( raw ) )
 
     def decrypt( self, enc ):
-        #enc = base64.b64decode(enc)
-        #iv = enc[:16]
         cipher = AES.new(self.key, AES.MODE_CBC, self.iv )
 
         return cipher.decrypt( enc )
@@ -47,13 +39,28 @@ aes = AESCipher(str(key),str(iv))
 # print "\nthis :", plain
 
 #----------------------------------------------
-
+error=0
 while 1:
+    dict={}
     data=ser.readline()
-    print data[:-1]#,len(data)
+    id=data[:9]
+    #print id#,len(data)
     if len(data) > 40:
-        plain = aes.decrypt(data[10:42])
-        print "decrypted :", plain
+        if len(data[10:42])==32:
+            plain = aes.decrypt(data[10:42])
+            lat=float(plain[1:10])
+            lng=float(plain[11:20])
+
+        if lat>99.0 and error<2:
+            #print id,": GPS_NOT_DETECTED"
+            error=error+1
+        else:
+            dict.__setitem__("id", int(id))
+            dict.__setitem__("lat", lat)
+            dict.__setitem__("lng", lng)
+            if error >1 and lat<99.9:
+                error=0
+            print json.dumps(dict)
     else:
         continue
     #ser.flushInput()
