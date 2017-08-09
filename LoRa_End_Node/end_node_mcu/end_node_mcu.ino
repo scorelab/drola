@@ -45,47 +45,38 @@ void setup(){
 
 void loop(){
   a=digitalRead(3);
-
-//            aes_context ctx;
-//            ctx = aes256_cbc_enc_start(key, iv);
-//            aes_cbc_enc_continue(ctx, data, 32);
-//            aes_cbc_enc_finish(ctx);
-//            Serial.println(data);
-//            delay(1000);
+  
   while (ss.available() > 0 && a==1){
     //Serial.println("gps is available");
     delay(2);
-    if (1){//(gps.encode(ss.read())){
-      if (1){//(gps.location.isValid()){
+    if (gps.encode(ss.read())){
+      if (gps.location.isValid()){
             String data1=getGPSData();
-            char data[32] = "";//"L06.870808,79.880714,0718,184455";//L<latitude>,<longitude>,<date>,<time>
+            sendData(data1);
+    }
+    else{
+      //Serial.println(id+","+"GPS_3D_NOT_FIXED");
+      sendData("L00.000000,00.000000,0000,000000");
+      delay(5000);
+      }
+  }
+
+}
+    sendData("L99.999999,99.999999,9999,999999");
+    delay(2000);
+}
+
+void sendData(String data1){
+  char data[32] = "";
+            //"L06.870808,79.880714,0718,184455";//L<latitude>,<longitude>,<date>,<time>
             strncpy(data,data1.c_str(),32);
             aes_context ctx;
             ctx = aes256_cbc_enc_start(key, iv);
             aes_cbc_enc_continue(ctx, data, 32);
             aes_cbc_enc_finish(ctx);
             Serial.println(id+","+data);
-            delay(1000);
-        }else{
-            Serial.println(id+","+"PGS_Not_Fixed");
-            delay(1000);
-        }
-      delay(10);
-    }
-    else{
-      Serial.println(id+","+"Cannot_read_gps");
-      delay(1000);
-      }
+            //delay(100);
   }
-
-  if (millis() > 5000 && gps.charsProcessed() < 10){
-    Serial.println("No GPS detected: check wiring.");
-    //while(true)
-    delay(1000);
-  }
-
-}
-
 
 String getGPSData(){
   String disp="";
@@ -100,7 +91,7 @@ String getGPSData(){
     }
 
     else{
-      disp=disp+"99.999999,99.999999";
+      disp=disp+"00.000000,00.000000";
       //Serial.print(F("INVALID"));
     }
 
@@ -114,7 +105,7 @@ String getGPSData(){
 
     }
     else{
-      disp=disp+"9999";
+      disp=disp+"0000";
       //Serial.print(F("INVALID"));
     }
     
@@ -139,7 +130,7 @@ String getGPSData(){
 
     }
     else{
-      disp=disp+"999999";
+      disp=disp+"000000";
       //Serial.print(F("INVALID"));
     }
     //Serial.println(disp);
