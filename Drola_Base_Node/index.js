@@ -32,7 +32,7 @@ app.listen(3000,function(){
 });
 
 ///================Web socket server ======================//
-'''
+/*
 var WebSocketServer = require('websocket').server;
 var http = require('http');
 
@@ -88,7 +88,8 @@ wsServer.on('request', function(request) {
         console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
     });
 });
-'''
+
+*/
 
 
 
