@@ -28,7 +28,7 @@ you can test the api by running socket_client.py instead of read_serial.py . It 
 Truted zones are not implemented yet to protect AES keys. The keys are hardcoded in this version.
   
 DroLa End Node Shematic
-![Alt text](/LoRa_End_Node/drola_end_node.png?raw=true "Optional Title1")
+![Alt text1](/LoRa_End_Node/drola_end_node.png?raw=true "Optional Title1")
 
 DroLa Base Node Shematic
-![Alt text](/Drola_Base_Node/hardware/drola_base_node.png?raw=true "Optional Title2")
+![Alt text2](/Drola_Base_Node/hardware/drola_base_node.png?raw=true "Optional Title2")
