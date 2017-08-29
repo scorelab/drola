@@ -11,7 +11,7 @@ class MyServerProtocol(WebSocketServerProtocol):
 
     def onConnect(self, request):
         print "---------conected---------"
-        self.connections.append(self)
+        #self.connections.append(self)
 
     def onOpen(self):
         print("WebSocket connection open.")
@@ -25,10 +25,12 @@ class MyServerProtocol(WebSocketServerProtocol):
             print("Binary message received: {0} bytes".format(len(payload)))
         else:
             print("Text message received: {0}".format(payload.decode('utf8')))
-        if payload.decode('utf8')!="Start":
+        if payload.decode('utf8')=="Start":
+           self.connections.append(self) 
+        else:# payload.decode('utf8')!="Start":
             self.broadcast_message(payload)
             #self.sendMessage(payload, isBinary)
-            #self.broadcast_message([{'lat' : 6.837226,'lng' : 80.137721, 'name' : 'namal'},{'lat' : 6.837226,'lng' : 80.137721, 'name' : 'namal'}])
+            #self.broadcast_message([{'lat' : 6.837226,'lng' : 80.137721, 'name' : 'namal'},{'lat' : 6.837226,'lng' :   80.137721, 'name' : 'namal'}])
 
     @classmethod
     def broadcast_message(cls, data):

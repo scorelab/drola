@@ -21,7 +21,7 @@ static const uint32_t GPSBaud = 9600;
 
 uint8_t key[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31};
 uint8_t iv[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
-String id="123456789";
+String id="456456456";
 int a;
 
 // The TinyGPS++ object
@@ -53,6 +53,7 @@ void loop(){
       if (gps.location.isValid()){
             String data1=getGPSData();
             sendData(data1);
+            delay(1000);
     }
     else{
       //Serial.println(id+","+"GPS_3D_NOT_FIXED");
@@ -62,8 +63,8 @@ void loop(){
   }
 
 }
-    sendData("L99.999999,99.999999,9999,999999");
-    delay(2000);
+    //sendData("L99.999999,99.999999,9999,999999");
+    //delay(2000);
 }
 
 void sendData(String data1){

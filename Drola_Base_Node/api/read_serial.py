@@ -23,17 +23,19 @@ class MyClientProtocol(WebSocketClientProtocol):
     def onOpen(self):
         print("WebSocket connection open.")
         while True:
-            data1 = ser.readline()
-            #print data1
-            data = getSerialData(data1, aes, error)
-            #print data
-            #data = json.dumps([{'lat': 6.837226, 'lng': 80.137721, 'name': 'namal'}])
-                               #{'lat': 6.837226, 'lng': 80.137721, 'name': 'namal'}])
-            if data!=None:
-                self.sendMessage(data.encode('utf8'))
-                #self.sendMessage(b"\x00\x01\x03\x04", isBinary=True)
-                yield sleep(1)
-
+            try:
+                data1 = ser.readline()
+                #print data1
+                data = getSerialData(data1, aes, error)
+                #print data
+                #data = json.dumps([{'lat': 6.837226, 'lng': 80.137721, 'name': 'namal'}])
+                                   #{'lat': 6.837226, 'lng': 80.137721, 'name': 'namal'}])
+                if data!=None:
+                    self.sendMessage(data.encode('utf8'))
+                    #self.sendMessage(b"\x00\x01\x03\x04", isBinary=True)
+                    yield sleep(0.5)
+            except:
+                print "unhandled error"
 
     def onMessage(self, payload, isBinary):
         if isBinary:
@@ -85,11 +87,13 @@ class AESCipher:
 #----------------------------------------------
 def getSerialData(data,aes,error):
     dict = {}
-    id = data[:9]
-    # print id#,len(data)
+    id = data[:10]
+    #print id,len(data)
     if len(data) > 40:
+        
         if len(data[10:42]) == 32:
             plain = aes.decrypt(data[10:42])
+            print plain
             lat = float(plain[1:10])
             lng = float(plain[11:20])
 

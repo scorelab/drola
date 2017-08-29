@@ -179,10 +179,10 @@ Namal Jayasuriya
    <script src="js/bootstrap.min.js"></script>
 	<script>
         function initMap() {
-            var uluru = {lat:6.7425,lng:80.2880};
+            var uoc_ground = {lat:6.900824,lng:79.860342};//6.900824, 79.860342
             map = new google.maps.Map(document.getElementById("maploaded"), {
-                zoom: 10,
-                center: uluru
+                zoom: 20,
+                center: uoc_ground
             });
 
         }
@@ -195,22 +195,19 @@ Namal Jayasuriya
 
 	<script type="text/javascript">
 		var drones=[];
-        // Let the library know where WebSocketMain.swf is:
 
-        // Write your code in the same way as for native WebSocket:
-        //var ws = new WebSocket("ws://localhost:8080/","dronelink");
 		var ws = new WebSocket("ws://127.0.0.1:9000/");
         ws.onopen = function() {
             ws.send("Start");  // Sends a message.
         };
         ws.onmessage = function(e) {
             // Receives a message.
-           console.log(e.data);
+           //console.log(e.data);
 			$.each(JSON.parse(e.data),function (id,data) {
 
                 var dt=getDrone(data);
                 if(dt!=null){
-                	console.log("dt!=null", data.name,data.lat,data.lng);
+                	console.log(data.name,data.lat,data.lng);
                     dt.setPosition( new google.maps.LatLng( data.lat, data.lng ) );
 				}
 				else{
@@ -219,7 +216,7 @@ Namal Jayasuriya
                         label: data.name,
                         map: map
                     });
-                    console.log("dt==null", data.name,data.lat,data.lng);
+                    //console.log("dt==null", data.name,data.lat,data.lng);
                     drones.push(marker);
 				}
 
