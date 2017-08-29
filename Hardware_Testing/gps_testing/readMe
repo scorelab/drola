@@ -1,0 +1,4 @@
+
+Module : GY-GPS6MV2
+library : tinyGPSPlus version 0.95a
+library gsit link : https://github.com/mikalhart/TinyGPSPlus/releases
