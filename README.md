@@ -37,4 +37,4 @@ DroLa End Node
 
 ![End Node](/LoRa_End_Node/Drola_end_node.jpg?raw=true "Optional Title2")
 
-For more informationa please refer the [Wiki](https://github.com/scorelab/drola/wiki)page.
+For more informationa please refer the [Wiki](https://github.com/NamalJayasuriya/drola/wiki/Drola)page.
