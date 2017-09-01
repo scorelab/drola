@@ -177,13 +177,17 @@ Namal Jayasuriya
 <script src="js/scripts.js"></script>
 <!-- Bootstrap Core JavaScript -->
    <script src="js/bootstrap.min.js"></script>
+
 	<script>
         function initMap() {
+            var home ={ lat:6.827059, lng:80.152336};
             var uoc_ground = {lat:6.900824,lng:79.860342};//6.900824, 79.860342
             map = new google.maps.Map(document.getElementById("maploaded"), {
                 zoom: 20,
-                center: uoc_ground
+                center: home//uoc_ground
             });
+            geocoder = new google.maps.Geocoder;
+
 
         }
 	</script>
@@ -191,11 +195,13 @@ Namal Jayasuriya
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkHhuEUMXW6ActUczGPk_JCTEdh8_njw0&callback=initMap">
 	</script>
 
-     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/web_socket.js"></script>
+     <script type="text/javascript" 
+        src="https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/web_socket.js">
+     </script>
 
 	<script type="text/javascript">
-		var drones=[];
-
+		var drones={};
+		var colors=["#FF0000","#00FF00","#0000FF"];
 		var ws = new WebSocket("ws://127.0.0.1:9000/");
         ws.onopen = function() {
             ws.send("Start");  // Sends a message.
@@ -205,19 +211,40 @@ Namal Jayasuriya
            //console.log(e.data);
 			$.each(JSON.parse(e.data),function (id,data) {
 
-                var dt=getDrone(data);
-                if(dt!=null){
+                //var dt=getDrone(data);
+                if(drones.hasOwnProperty(data.name)){
+                    var pos = new google.maps.LatLng( data.lat, data.lng );
                 	console.log(data.name,data.lat,data.lng);
-                    dt.setPosition( new google.maps.LatLng( data.lat, data.lng ) );
+                    drones[data.name]["marker"].setPosition( pos );
+
+                    var path = drones[data.name]["path"].getPath();
+					path.push(pos);
+					drones[data.name]["path"].setPath(path);
+
 				}
 				else{
+                    var pos = new google.maps.LatLng( data.lat, data.lng );
+                    var path = [pos]
                     var marker = new google.maps.Marker({
-                        position: data,
+                        position: pos,
                         label: data.name,
+						title: "Last Seen",
                         map: map
                     });
+                    var flightPath = new google.maps.Polyline({
+							path: path,
+							strokeColor: colors.pop(),
+							strokeOpacity: 0.8,
+							strokeWeight: 4
+						});
+
+            		flightPath.setMap(map);
                     //console.log("dt==null", data.name,data.lat,data.lng);
-                    drones.push(marker);
+					var drone = {
+					    "marker" : marker,
+						"path" : flightPath
+					};
+                    drones[data.name]=drone;
 				}
 
             });
@@ -227,16 +254,6 @@ Namal Jayasuriya
             ws = new WebSocket("ws://127.0.0.1:9000/");
         };
 
-        function getDrone(data) {
-            for (var i = 0; i < drones.length; i++){
-
-                if (drones[i].label == data.name){
-					return drones[i];
-                }
-
-            }
-            return null;
-        }
 	</script>
 
 </body>
