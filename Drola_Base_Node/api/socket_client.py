@@ -22,7 +22,7 @@ class MyClientProtocol(WebSocketClientProtocol):
 
         # start sending messages every second ..
         while True:
-            data = json.dumps([{'lat': 6.837226, 'lng': 80.137721, 'name': 'namal'}])
+            data = json.dumps([{'lat': 6.900824, 'lng': 79.860342, 'name': 'score_1'}])
                                #{'lat': 6.837226, 'lng': 80.137721, 'name': 'namal'}])
             self.sendMessage(data.encode('utf8'))
             #self.sendMessage(b"\x00\x01\x03\x04", isBinary=True)

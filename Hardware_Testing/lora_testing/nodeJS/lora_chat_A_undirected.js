@@ -12,7 +12,7 @@ var serialPort = new SerialPort("/dev/ttyUSB0", {
 
 serialPort.on("open", function () {
   console.log('open');
-  serialPort.write("Hi I'm Add:ffff from CH:08\n");
+  //serialPort.write("Hi I'm Add:ffff from CH:08\n");
   serialPort.on('data', function(data) {
     console.log(data);
   });

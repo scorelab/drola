@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
+import os, re
 from Crypto.Cipher import AES
 import serial, time
-from autobahn.twisted.websocket import WebSocketClientProtocol, \
-    WebSocketClientFactory
+from autobahn.twisted.websocket import WebSocketClientProtocol, WebSocketClientFactory
 
 from twisted.internet.defer import Deferred, inlineCallbacks
 import json
@@ -118,12 +118,17 @@ if __name__ == '__main__':
     from twisted.python import log
     from twisted.internet import reactor
 
+    files = [f for f in os.listdir('/dev/') if re.match(r'ttyUSB', f)]
+    for i in files:
+        print i
+    device='/dev/ttyUSB'+raw_input("port number : ")
+
     key = bytearray(
         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
          29, 30, 31])
     iv = bytearray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
     aes = AESCipher(str(key), str(iv))
-    ser = serial.Serial('/dev/ttyUSB0', 9600)
+    ser = serial.Serial(device, 9600)
     error = 0
 
     log.startLogging(sys.stdout)
