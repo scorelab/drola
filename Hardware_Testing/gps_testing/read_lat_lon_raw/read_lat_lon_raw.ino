@@ -49,6 +49,9 @@ void displayGPS()
     getField(field, 6);  // E/W
     Serial.println(field);
   }
+  else{
+    Serial.println("----------------");
+  }
 }
 
 void getField(char* buffer, int index)
