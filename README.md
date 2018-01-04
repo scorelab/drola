@@ -27,12 +27,10 @@ Setup the units according to the shematics given in the `LoRa_End_Node`. End nod
 
 **Note:** You can test the api by running `socket_client.py` instead of `read_serial.py`. It will show you some hard-coded locations. Trusted zones are not implemented yet to protect AES keys. The keys are hardcoded in this version.
   
-Base Node Application
+## Base Node Application
+![Base Node App](/Drola_Base_Node/Drola_snap_4.png?raw=true "Base Node App")
 
-![Base Node App](/Drola_Base_Node/Drola_snap_4.png?raw=true "Optional Title1")
-
-DroLa End Node
-
+## DroLa End Node
 ![End Node](/LoRa_End_Node/Drola_end_node.jpg?raw=true "Drole End Node")
 <hr>
 
