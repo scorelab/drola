@@ -1,0 +1,58 @@
+*{
+    font-family: 'Raleway', sans-serif;
+}
+.main{
+    height:520px;
+    width:31%;
+    margin-top:10%;
+    background-color:#00E676;
+    margin-left:35%;
+}
+.one_box{
+	margin-left:20%;
+	width:60%;
+}
+.two_box{
+	margin-left:20%;
+	width:60%;
+}
+input{
+	border:none;
+	color:#388E3C;
+	background:none;
+	border-bottom:3px solid #388E3C;
+	padding-top:8%;
+	margin-bottom:30px;
+	margin-top:-29%; 
+	font-size:1.2em;
+	outline:none;
+	padding-bottom:14px;
+}
+input:active{
+    border-bottom-color:#fff; 
+    color:#fff;
+    transition:0.4s;
+}
+.mainfont{
+	font-size:2em;
+	color:white;
+	padding-left:26%;
+}
+.btn{
+	color:#fff;
+	font-size:1.5em;
+	margin-left:24%;
+	margin-top:10px;
+	border:1px solid #fff;
+    padding-right:80px;
+    padding-left:80px;
+    padding-top:5px;
+    padding-bottom:5px;
+}
+.vect{
+	height:30%;
+	width:35%;
+	margin-bottom:-17%;
+	margin-left:32%;
+	margin-top:-7%;
+}
