@@ -6,10 +6,11 @@ We have introduced a separate Hardware unit for drones which can easily mount on
 Set the units up according to the schematics given. The end node microcontroller should contain the given firmware. Communication channel and addresses of Lora modules should be according to the given firmware.
 
 Clone this project at the Base station. Run the following command to install the node module dependencies.
+cd to the Drola_Base_Node folder and run the following:
 
 `npm install`
 
-Connect the configured base station LoRa module to the base station computer. You can start the web server by running following command.
+Connect the configured base station LoRa module to the base station computer. You can start the web server by running following command (in Drola_Base_Node foler).
 
 `npm start`
 
