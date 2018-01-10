@@ -1138,6 +1138,7 @@ ul.dropdown-menu li {
 }
 /**** Search ********/
 /*-------LOGIN STARTS HERE -------*/
+
 #loginContainer {
     position:relative;
 }
@@ -4641,16 +4642,24 @@ span.badge1 {
 }
 /*-- //typo --*/
 /*-- sign-in --*/
-.sign-in-up{
-	background:#f9f9f9 !important;
-	min-height: 830px;
+.sign-in-up {
+	background:#000000;
+   background-image: url("../images/score.png");
+   background-size: cover;
+   -webkit-background-size: cover;
+   -moz-background-size: cover;
+   -o-background-size: cover;
+    background-position: center;
+
+    min-height: 830px;
 }
+
 .sign-in-form{
 	margin:2em auto 4em;
 	width:35%;
 }
 .sign-in-wrapper{
-	background:#f9f9f9;
+	// background:#f9f9f9;
 }
 .new_people{
 	padding:3em 0 0;
@@ -4679,7 +4688,7 @@ span.badge1 {
 	border:1px solid #F44336;
 }
 .sign-in-form-top{
-	background:url(../images/3.jpg) no-repeat 0px -55px;
+	background: url(../images/3.jpg) no-repeat 0px -55px;
 	display:block;
 	min-height:150px;
 	padding:3em 0 0;
@@ -4694,17 +4703,19 @@ span.badge1 {
 }
 .sign-in-form-top p a{
 	color:#fff;
+	text-decoration:underline;
 }
 .sign-in-form-top p a:hover{
 	text-decoration:none;
 }
 .sign-in-form-top p span{
-	color:#8BC34A;
+	color:#fff;
 }
 .signin {
     padding: 2em;
 	position:relative;
 	background: #fff;
+	opacity:1;
 }
 .signin:after {
     content: '';
@@ -4724,7 +4735,7 @@ span.badge1 {
   font-size: 0.95em;
   padding: 10px 15px 10px 37px;
   width: 98%;
-  color: #A8A8A8;
+  color: #000000;
   outline: none;
   border: 1px solid #D3D3D3;
   border-radius: 4px;
@@ -4737,15 +4748,30 @@ span.badge1 {
 }
 .log-input input.lock {
   background: url(../images/lock.png)no-repeat 8px 10px #fff;
+
 }
 .log-input-left {
   float: left;
   width: 90%;
+  position: relative;
+}
+.reveal {
+position: absolute;
+ right: 10px;
+  top: 10px;
+  width:5%;
+  cursor: pointer;
 }
 span.checkbox1 {
-  float: left;
-  width: 43%;
+  width: 50%;
+  color: #000;
 }
+span.checkbox1 a:hover{
+  width: 50%;
+  color: #000;
+  text-decoration: underline;
+}
+
 .signin .checkbox {
 	margin-bottom: 4px;
 	font-size: 1.2em;
