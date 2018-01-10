@@ -31,6 +31,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="js/wow.min.js"></script>
 	<script>
 		 new WOW().init();
+
+		 function clicked() {
+    var x = document.getElementById("myinp");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
 	</script>
 <!--//end-animate-->
 <!----webfonts--->
@@ -48,37 +57,38 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="graphs">
 					<div class="sign-in-form">
 						<div class="sign-in-form-top">
-							<p><span>Sign In to</span> <a href="index.html">Admin</a></p>
+							<p><span>Sign in to</span> <a href="index.html">Admin</a></p>
 						</div>
 						<div class="signin">
-							<div class="signin-rit">
-								<span class="checkbox1">
-									 <label class="checkbox"><input type="checkbox" name="checkbox" checked="">Forgot Password ?</label>
-								</span>
-								<p><a href="#">Click Here</a> </p>
-								<div class="clearfix"> </div>
-							</div>
 							<form action="doLogin" method="post">
 							<div class="log-input">
 								<div class="log-input-left">
-								   <input type="text" name="uname" class="user" value="Yourname" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email address:';}"/>
+								   <input type="text" name="uname" class="user" placeholder="Email Address" required />
 								</div>
 								<span class="checkbox2">
-									 <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i></label>
+									<!-- <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i></label> -->
 								</span>
 								<div class="clearfix"> </div>
 							</div>
 							<div class="log-input">
 								<div class="log-input-left">
-								   <input type="password" name="pwd" class="lock" value="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email address:';}"/>
+								   <input type="password" name="pwd" class="lock" id="myinp" placeholder="Password" required />
+								    <img class="reveal" src="images/passrev.png" onclick="clicked()" >
 								</div>
 								<span class="checkbox2">
-									 <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i></label>
+									<!-- <label class="checkbox"><i> </i></label> -->
 								</span>
 								<div class="clearfix"> </div>
 							</div>
 							<input type="submit" value="Login to your account">
 						</form>	 
+						<div class="signin-rit">
+								<span class="checkbox1">
+									 <p><a href="#">Forgot Password?</a></p>
+								</span>
+								<!--<p><a href="#">Click Here</a> </p> -->
+								<div class="clearfix"> </div>
+							</div>
 						</div>
 						<div class="new_people dontshow">
 							<h4>For New People</h4>
