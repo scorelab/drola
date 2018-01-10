@@ -6,20 +6,24 @@ We introduce a seperate Hardware unit for drones which can easily mount on any k
 Setup the units according to the schematics given. End node microcontroller should contain the given firmware. Communication Channel and addresses of Lora modules should be according to the given firmware.
 
 Clone this project at the Base station. Run the following command to install the node module dependencies.
+which is `/drola/Drola_Base_Node$`
 
-`npm install`
+run `npm install`
 
 Connect the configured base station lora module to the base station computer. You can start the web server by running following command.
 
 `npm start`
+If you encounter problems relating to missing cron module run  `npm install cron`
 
 Then you should start the Web socket server and web socket client to see the the end node locations at the browser application.
 
-`cd Drola_Base_node`
+`cd Drola_Base_Node/api`
 
 `python socket_server.py`
 
 `python read_serial.py`
+
+if you find errors such as missing module , run pip install <NAME OF THE MODULE>
 
 Then open a browser tab and goto the following url it will see all the locations of the live End Nodes.
 
