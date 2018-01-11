@@ -35,7 +35,7 @@ class MyClientProtocol(WebSocketClientProtocol):
                     #self.sendMessage(b"\x00\x01\x03\x04", isBinary=True)
                     yield sleep(0.5)
             except:
-                print "unhandled error"
+                print("unhandled error")
 
     def onMessage(self, payload, isBinary):
         if isBinary:
