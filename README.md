@@ -7,9 +7,11 @@ setup the units according to the shematics given. End node microcontroller shoul
 
 Clone this project at the Base station. Run the following command to install the node module dependencies.
 
+`cd Drola_Base_Node`
+
 `npm install`
 
-Connect the configured base station lora module to the base station computer. You can start the web server by running following command.
+Connect the configured base station lora module to the base station computer. You can start the web server by running following command in the same directory.
 
 `npm start`
 
