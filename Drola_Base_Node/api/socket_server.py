@@ -10,7 +10,7 @@ class MyServerProtocol(WebSocketServerProtocol):
     connections = list()
 
     def onConnect(self, request):
-        print "---------conected---------"
+        print("---------conected---------")
         #self.connections.append(self)
 
     def onOpen(self):
