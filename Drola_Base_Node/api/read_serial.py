@@ -93,7 +93,7 @@ def getSerialData(data,aes,error):
         
         if len(data[10:42]) == 32:
             plain = aes.decrypt(data[10:42])
-            print plain
+            print(plain)
             lat = float(plain[1:10])
             lng = float(plain[11:20])
 
@@ -120,7 +120,7 @@ if __name__ == '__main__':
 
     files = [f for f in os.listdir('/dev/') if re.match(r'ttyUSB', f)]
     for i in files:
-        print i
+        print(i)
     device='/dev/ttyUSB'+raw_input("port number : ")
 
     key = bytearray(
