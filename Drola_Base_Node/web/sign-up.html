@@ -31,6 +31,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="js/wow.min.js"></script>
 	<script>
 		 new WOW().init();
+
+		 	 function clicked() {
+    var x = document.getElementById("myinp");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
 	</script>
 <!--//end-animate-->
 <!----webfonts--->
@@ -49,7 +58,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="sign-up">
 						<h3>Register Here</h3>
 						<p class="creating">Having hands on experience in creating innovative designs,I do offer design 
-							solutions which harness.</p>
+							solutions which harness.</p><hr>
 						<h5>Personal Information</h5>
 						<div class="sign-u">
 							<div class="sign-up1">
@@ -57,7 +66,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div>
 							<div class="sign-up2">
 								<form>
-									<input type="text" placeholder=" " required=" "/>
+								<form>
+									<input type="text" placeholder="eg. John" required/>
 								</form>
 							</div>
 							<div class="clearfix"> </div>
@@ -68,7 +78,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div>
 							<div class="sign-up2">
 								<form>
-									<input type="text" placeholder=" " required=" "/>
+									<input type="text" placeholder="eg. Doe" required/>
 								</form>
 							</div>
 							<div class="clearfix"> </div>
@@ -79,11 +89,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div>
 							<div class="sign-up2">
 								<form>
-									<input type="text" placeholder=" " required=" "/>
+									<input type="text" placeholder="eg. johndoe@example.com" required/>
 								</form>
 							</div>
 							<div class="clearfix"> </div>
-						</div>
+						</div><hr>
 						<h6>Login Information</h6>
 						<div class="sign-u">
 							<div class="sign-up1">
@@ -91,7 +101,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div>
 							<div class="sign-up2">
 								<form>
-									<input type="password" placeholder=" " required=" "/>
+									<div class="log-input-left">
+									<input type="password" placeholder="**********"  id="myinp" required/>
+									   <img class="reveal2" src="images/passrev.png" onclick="clicked()" >
+								</div>
 								</form>
 							</div>
 							<div class="clearfix"> </div>
@@ -102,7 +115,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div>
 							<div class="sign-up2">
 								<form>
-									<input type="password" placeholder=" " required=" "/>
+									<div class="log-input-left">
+									<input type="password" placeholder="**********"  id="myinp" required/>
+									<img class="reveal2" src="images/passrev.png" onclick="clicked()" >
+								</div>
 								</form>
 							</div>
 							<div class="clearfix"> </div>
@@ -112,11 +128,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<form>
 									<input type="submit" value="Submit">
 								</form>
+							</form>
 							</div>
 							<div class="sub_home_right">
 								<p>Go Back to <a href="index.html">Home</a></p>
 							</div>
 							<div class="clearfix"> </div>
+							<div class="signin-rit"><hr>
+								<span class="checkbox1">
+									 <p>Already Registered?  <a href='sign-in.html'>Login</a></p>
+								</span>
+								<button class="loginBtn loginBtn--facebook"> Login with Facebook</button>
+                                <button class="loginBtn loginBtn--google">Login with Google</button>
+								<!--<p><a href="#">Click Here</a> </p> -->
+								<div class="clearfix"> </div>
+							</div>
 						</div>
 					</div>
 				</div>
