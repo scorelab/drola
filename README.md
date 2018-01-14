@@ -14,7 +14,10 @@ npm install
 
 Connect the configured base station lora module to the base station computer. You can start the web server by running following command.
 
-```npm start```
+```
+npm start
+
+```
 
 Then you should start the Web socket server and web socket client to see the the end node locations at the browser application.
 
