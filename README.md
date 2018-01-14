@@ -8,6 +8,7 @@ Setup the units according to the shematics given. End node microcontroller shoul
 Clone this project at the Base station. Run the following command to install the node module dependencies.
 
 ```
+cd Drola_Base_Node
 npm install
 ```
 
@@ -17,11 +18,12 @@ Connect the configured base station lora module to the base station computer. Yo
 
 Then you should start the Web socket server and web socket client to see the the end node locations at the browser application.
 
-```cd Drola_Base_node```
+```
+cd Drola_Base_Node/api
+python socket_server.py
+python read_serial.py
 
-```python socket_server.py```
-
-```python read_serial.py```
+```
 
 Then open a browser tab and goto the following url it will show all the locations of the live End Nodes.
 
