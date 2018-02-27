@@ -2,7 +2,7 @@ var express = require("express");
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 //var re=require("socket");
-var CronJob = require('cron').CronJob;
+//var CronJob = require('cron').CronJob;
 
 var app = express();
 app.use(cookieParser());
@@ -18,6 +18,14 @@ router.use(function (req,res,next) {
 router.get("/",function(req,res){
     //checkAndredirect(req,res);
     res.sendFile(path + "web/index.html");
+});
+router.get("/sign-up.html",function(req,res){
+    //checkAndredirect(req,res);
+    res.sendFile(path + "web/sign-up.html");
+});
+router.get("/sign-in.html",function(req,res){
+    //checkAndredirect(req,res);
+    res.sendFile(path + "web/sign-in.html");
 });
 
 app.use("/",router);
@@ -90,9 +98,3 @@ wsServer.on('request', function(request) {
 });
 
 */
-
-
-
-
-
-
