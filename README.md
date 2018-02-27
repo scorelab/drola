@@ -7,6 +7,8 @@ setup the units according to the shematics given. End node microcontroller shoul
 
 Clone this project at the Base station. Run the following command to install the node module dependencies.
 
+`cd Drola_Base_Node`
+
 `npm install`
 
 Connect the configured base station lora module to the base station computer. You can start the web server by running following command.
@@ -28,7 +30,7 @@ http://localhost:3000/
 you can test the api by running socket_client.py instead of read_serial.py . It will show you some hardcoded locations.
 
 Truted zones are not implemented yet to protect AES keys. The keys are hardcoded in this version.
-  
+
 Base Node Application
 
 ![Base Node App](/Drola_Base_Node/Drola_snap_4.png?raw=true "Optional Title1")
