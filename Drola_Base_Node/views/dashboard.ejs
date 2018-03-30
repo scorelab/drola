@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+    <title>Node Authentication</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+    <style>
+        body{
+            padding-top:80px;
+            word-wrap:break-word;
+        }
+
+        .well{
+            border-color: orangered;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="page-header text-center">
+        <h1><span class="far fa-user-circle" style="color: #E8590C"></span> Profile Page</h1>
+        <div>
+
+        </div>
+    </div>
+
+    <div class="row">
+
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-8">
+            <div class="well">
+                <h3><span class="fa fa-user"></span> Local</h3>
+
+                <% if (data.email) { %>
+                <p>
+                    <strong>id</strong>: <%= data._id %><br>
+                    <strong>username</strong>: <%= data.username %><br>
+                    <strong>email</strong>: <%= data.email %><br>
+                    <strong>password</strong>: <%= data.password %>
+                </p>
+                <%}%>
+
+            </div>
+
+            <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
+            <a href="/drone_register" class="btn btn-primary btn-sm">Register your drone</a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

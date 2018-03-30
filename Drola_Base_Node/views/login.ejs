@@ -1,0 +1,54 @@
+<!-- views/login.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>User register</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+          integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <style>
+        body{
+            padding-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="col-sm-6 col-sm-offset-3">
+        <h1><span class="fa fa-sign-in"></span> Login</h1><br>
+
+        <!-- Flash Messages -->
+
+        <% if (success_msg != '') { %>
+        <div class="alert alert-success"><%= success_msg %></div>
+        <% } %>
+        <% if (error_msg != '') { %>
+        <div class="alert alert-danger"><%= error_msg %></div>
+        <% } %>
+        <% if (error != '') { %>
+        <div class="alert alert-danger"><%= error %></div>
+        <% } %>
+
+        <form action="/login" method="post">
+            <div class="form-group">
+                <label>Username: </label>
+                <input type="text" class="form-control" name="username" placeholder="jamesharden">
+            </div>
+            <div class="form-group">
+                <label>Your Password: </label>
+                <input type="password" class="form-control" name="password">
+            </div>
+            <button type="submit" class="btn btn-success btn-lg">Login</button>
+        </form>
+        <hr>
+        <p>Are you a new user? <a href="/register" style="color: darkblue">Register</a></p>
+        <p>Or go <a href="/" style="color: darkblue;">home</a>.</p>
+    </div>
+</div>
+
+</body>
+</html>
