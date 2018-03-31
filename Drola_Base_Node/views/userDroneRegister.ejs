@@ -1,0 +1,64 @@
+<!-- views/login.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>User register</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+          integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <style>
+        body{
+            padding-top: 30px;
+        }
+
+        .container{
+            background-color: #ffffff87;
+            border-radius: 3%;
+            box-shadow: 0px 0px 20px 3px black;
+        }
+
+        .form-control{
+            border-color: orangered;
+        }
+    </style>
+</head>
+<body background="https://www.iphones.ru/wp-content/uploads/2017/07/IMG_2252-1240x720.jpg" style="background-repeat: no-repeat; background-size: cover">
+
+<div class="container">
+    <div class="col-sm-6 col-sm-offset-3">
+        <h1><span class="fa fa-sign-in"></span> Register your drone</h1>
+
+        <br>
+        <form action="/userRequest/<%=user._id%>" method="post">
+            <div class="form-group">
+                <label>Your Name: </label>
+                <input type="text" class="form-control" name="name" placeholder="<%=user.name%>" disabled>
+            </div>
+            <div class="form-group">
+                <label>Drone Model/Name: </label>
+                <input type="text" class="form-control" name="droneModel" placeholder="DJI Phantom-1" required>
+            </div>
+            <div class="form-group">
+                <label>Drone model number: </label>
+                <input type="text" class="form-control" name="droneId" required>
+            </div>
+            <div class="form-group">
+                <label>Drone Specification: </label>
+                <textArea type="password" class="form-control" name="drone_specs" placeholder="Write the drone features...."></textArea>
+            </div>
+            <div class="form-group">
+                <label>LORA Id: </label>
+                <input type="text" class="form-control" name="loraId" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Send for Approval</button>
+            <a href="/logout" class="btn btn-danger">Logout</a>
+        </form>
+        <hr>
+    </div>
+</div>
+
+</body>
+</html>

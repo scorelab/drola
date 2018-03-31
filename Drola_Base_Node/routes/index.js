@@ -5,6 +5,7 @@ let bodyParser = require('body-parser');
 let passport = require('passport');
 let LocalStrategy = require('passport-local').Strategy;
 let User = require('../models/user');
+let Drone = require('../models/drone');
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
@@ -18,7 +19,7 @@ router.get('/adminPortal', function (req, res) {
     res.sendFile(path.join(__dirname,'../web/adminPortal.html'));
 });
 
-// Managing user login System...........................................................................................
+//............................................... Managing user login System............................................
 
 router.use(require('express-session')({
     secret: "Keyboard cat",
@@ -154,8 +155,30 @@ router.get('/dashboard/:id', ensureAuthenticated, function(req, res){
     })
 });
 
-router.get('/drone_register', function (req, res) {
-   res.send('Drone database model is ready. Drone registration shall start soon.')
+//.........................................ROUTES FOR REGISTERING THE DRONE FROM USER PORTAL............................
+
+
+router.get('/drone_register/:id',ensureAuthenticated, function (req, res) {
+    res.render('userDroneRegister.ejs', {user: req.user});
 });
+
+router.post('/userRequest/:id', ensureAuthenticated, function (req, res) {
+    console.log(req.user);
+    let obj={
+        name: req.user.name,
+        userId: req.user._id,
+        droneModel: req.body.droneModel,
+        droneId: req.body.droneId,
+        drone_specs: req.body.drone_specs,
+        loraId: req.body.loraId
+    };
+
+    let newUser=new Drone(obj);
+    newUser.save(obj);
+
+    res.redirect(`/dashboard/${req.user._id}`)
+});
+
+//.....................................................................................................................
 
 module.exports=router;

@@ -10,7 +10,7 @@ let mongoose = require('mongoose');
 //let re=require("socket");
 
 // Connecting database
-mongoose.connect('MONGODB_URI || Local mongoose database link');
+mongoose.connect('mongodb://localhost/droneSystem');
 
 // Initializing express app
 let app = express();
