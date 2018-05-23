@@ -5,7 +5,7 @@ HardWare Used
 --------*******************-------------
 ATMega 328P
 LoRa E45-TTL-100
-GY-GPS-6MV2 
+GY-GPS-6MV2
 --------*******************-------------
 
 This sample sketch demonstrates the Lora end node od drola project.
@@ -15,6 +15,11 @@ collects gps data from jps module throught TinyGPSPLus and Software serial Libra
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
 #include <AESLib.h>
+
+
+String getGPSData();
+void sendData(String data1);
+static void smartDelay(unsigned long ms);
 
 static const int RXPin = 10, TXPin = 11;
 static const uint32_t GPSBaud = 9600;
@@ -43,28 +48,36 @@ void setup(){
   //Serial.println(F("LoRa end Node demonstration"));
 }
 
+
 void loop(){
-  a=digitalRead(3);
-  
-  while (ss.available() > 0 && a==1){
-    //Serial.println("gps is available");
-    delay(2);
-    if (gps.encode(ss.read())){
-      if (gps.location.isValid()){
-            String data1=getGPSData();
-            sendData(data1);
-            delay(900);
-    }
-    else{
-      //Serial.println(id+","+"GPS_3D_NOT_FIXED");
-      sendData("L00.000000,00.000000,0000,000000");
-      delay(5000);
+      String data1=getGPSData();
+      while(1){
+          a=digitalRead(3);
+              if(a==1){
+                  sendData(data1);
+                  break;
+               }else{
+                  delay(100);
+               }
+
+             }
+    smartDelay(970);
+
+    if (millis() > 5000 && gps.charsProcessed() < 10){
+        sendData("L99.999999,99.999999,9999,999999");
+        delay(1000);
       }
-  }
 
 }
-    //sendData("L99.999999,99.999999,9999,999999");
-    //delay(2000);
+
+static void smartDelay(unsigned long ms)
+{
+  unsigned long start = millis();
+  do
+  {
+    while (ss.available())
+      gps.encode(ss.read());
+  } while (millis() - start < ms);
 }
 
 void sendData(String data1){
@@ -109,7 +122,7 @@ String getGPSData(){
       disp=disp+"0000";
       //Serial.print(F("INVALID"));
     }
-    
+
     disp=disp+",";//" T:";
     if (gps.time.isValid()){
       int hrs=gps.time.hour()+5;
@@ -136,7 +149,4 @@ String getGPSData(){
     }
     //Serial.println(disp);
     return (disp);
-    }
-
-
-
+ }
