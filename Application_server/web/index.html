@@ -15,7 +15,7 @@ Namal Jayasuriya
 <!-- Custom CSS -->
 <link href="css/style.css" rel='stylesheet' type='text/css' />
 <!-- Graph CSS -->
-<link href="css/font-awesome.css" rel="stylesheet"> 
+<link href="css/font-awesome.css" rel="stylesheet">
 <!-- jQuery -->
 <!-- lined-icons -->
 <link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
@@ -33,13 +33,13 @@ Namal Jayasuriya
 <!----webfonts--->clear
 
 <link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
-<!---//webfonts---> 
+<!---//webfonts--->
  <!-- Meters graphs -->
 <script src="js/jquery-1.10.2.min.js"></script>
 <!-- Placed js at the end of the document so the pages load faster -->
 
-</head> 
-   
+</head>
+
  <body class="sticky-header left-side-collapsed">
     <section>
     <!-- left side start-->
@@ -75,7 +75,7 @@ Namal Jayasuriya
 							</ul>
 						</li>
 
-						<li class="menu-list"><a href="#"><i class="lnr lnr-book"></i>  <span>Pages</span></a> 
+						<li class="menu-list"><a href="#"><i class="lnr lnr-book"></i>  <span>Pages</span></a>
 							<ul class="sub-menu-list">
 								<li><a href="sign-in.html">Sign In</a> </li>
 								<li><a href="sign-up.html">Sign Up</a></li>
@@ -86,12 +86,12 @@ Namal Jayasuriya
 			</div>
 		</div>
 		<!-- left side end-->
-    
+
 		<!-- main content start-->
 		<div class="main-content">
 			<!-- header-starts -->
 			<div class="header-section">
-			 
+
 			<!--toggle button start-->
 			<a class="toggle-btn  menu-collapsed"><i class="fa fa-bars"></i></a>
 			<!--toggle button end-->
@@ -123,33 +123,33 @@ Namal Jayasuriya
 										<!-- //search-scripts -->
 							</li>
 
-							<div class="clearfix"></div>	
+							<div class="clearfix"></div>
 						</ul>
 					</div>
 
-					<div class="profile_details">		
+					<div class="profile_details">
 						<ul>
 							<li class="dropdown profile_details_drop">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-									<div class="profile_img">	
+									<div class="profile_img">
 										<span style="background:url(images/user.png) no-repeat center"> </span>
 										 <div class="user-name">
 											<p>Namal<span>Administrator</span></p>
 										 </div>
 										 <i class="lnr lnr-chevron-down"></i>
 										 <i class="lnr lnr-chevron-up"></i>
-										<div class="clearfix"></div>	
-									</div>	
+										<div class="clearfix"></div>
+									</div>
 								</a>
 								<ul class="dropdown-menu drp-mnu">
-									<li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li> 
-									<li> <a href="#"><i class="fa fa-user"></i>Profile</a> </li> 
+									<li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li>
+									<li> <a href="#"><i class="fa fa-user"></i>Profile</a> </li>
 									<li> <a href="sign-up.html"><i class="fa fa-sign-out"></i> Logout</a> </li>
 								</ul>
 							</li>
 							<div class="clearfix"> </div>
 						</ul>
-					</div>		
+					</div>
 
 					<div class="clearfix"></div>
 				</div>
@@ -166,7 +166,7 @@ Namal Jayasuriya
 		</div>
         <!--footer section start-->
 			<footer>
-			   <p>&copy DroLa Admin Panel [SCORE][GSOC 2017]</p>
+			   <p>&copy DroLa Admin Panel [SCORE][GSOC 2018]</p>
 			</footer>
         <!--footer section end-->
 
@@ -178,7 +178,19 @@ Namal Jayasuriya
 <!-- Bootstrap Core JavaScript -->
    <script src="js/bootstrap.min.js"></script>
 
-	<script>
+<script src="/socket.io/socket.io.js"></script>
+
+<!-- =================== sample socket client========================= -->
+<script>
+  var socket = io.connect('http://localhost:3000');
+  socket.on('data', function (data) {
+    console.log(data);
+    socket.emit('ack', { ack: 'data received' ,drone : data.drone});
+  });
+</script>
+<!-- ================================================================== -->
+
+	<!--script>
         function initMap() {
             var home ={ lat:6.827059, lng:80.152336};
             var uoc_ground = {lat:6.900824,lng:79.860342};//6.900824, 79.860342
@@ -196,7 +208,7 @@ Namal Jayasuriya
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkHhuEUMXW6ActUczGPk_JCTEdh8_njw0&callback=initMap">
 	</script>
 
-     <script type="text/javascript" 
+     <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/web_socket.js">
      </script>
 
@@ -255,7 +267,7 @@ Namal Jayasuriya
             ws = new WebSocket("ws://127.0.0.1:9000/");
         };
 
-	</script>
+	</script-->
 
 </body>
 </html>
