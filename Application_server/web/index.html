@@ -175,99 +175,73 @@ Namal Jayasuriya
 
 <script src="js/jquery.nicescroll.js"></script>
 <script src="js/scripts.js"></script>
-<!-- Bootstrap Core JavaScript -->
-   <script src="js/bootstrap.min.js"></script>
-
+<script src="js/bootstrap.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 
-<!-- =================== sample socket client========================= -->
-<script>
-  var socket = io.connect('http://localhost:3000');
-  socket.on('data', function (data) {
-    console.log(data);
-    socket.emit('ack', { ack: 'data received' ,drone : data.drone});
-  });
-</script>
-<!-- ================================================================== -->
+<!-- ========================= Google Map API ========================================= -->
 
-	<!--script>
+	<script>
         function initMap() {
             var home ={ lat:6.827059, lng:80.152336};
             var uoc_ground = {lat:6.900824,lng:79.860342};//6.900824, 79.860342
             var akurala ={lat:6.207258,lng:80.062729}
             map = new google.maps.Map(document.getElementById("maploaded"), {
                 zoom: 18,
-                center: uoc_ground//akurala//uoc_ground
+                center: uoc_ground//akurala
             });
             geocoder = new google.maps.Geocoder;
-
-
         }
 	</script>
-	<script async defer
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkHhuEUMXW6ActUczGPk_JCTEdh8_njw0&callback=initMap">
-	</script>
 
-     <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/web_socket.js">
-     </script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTCnk7sHaxM2URBlA-Uf5DkNkwC1QRJiw&callback=initMap"
+  type="text/javascript"></script>
 
+
+<!-- =================== socket client========================= -->
 	<script type="text/javascript">
 		var drones={};
 		var colors=["#FF0000","#00FF00","#0000FF"];
-		var ws = new WebSocket("ws://127.0.0.1:9000/");
-        ws.onopen = function() {
-            ws.send("Start");  // Sends a message.
-        };
-        ws.onmessage = function(e) {
-            // Receives a message.
-           //console.log(e.data);
-			$.each(JSON.parse(e.data),function (id,data) {
+		var socket = io.connect('http://localhost:3000');
 
-                //var dt=getDrone(data);
-                if(drones.hasOwnProperty(data.name)){
-                    var pos = new google.maps.LatLng( data.lat, data.lng );
-                	console.log(data.name,data.lat,data.lng);
-                    drones[data.name]["marker"].setPosition( pos );
+		socket.on('data', function (data) {
 
-                    var path = drones[data.name]["path"].getPath();
+      if(drones.hasOwnProperty(data.node)){
+          var pos = new google.maps.LatLng( data.lat, data.lng );
+          console.log(data.node,data.lat,data.lng);
+          drones[data.node]["marker"].setPosition( pos );
+          var path = drones[data.node]["path"].getPath();
 					path.push(pos);
-					drones[data.name]["path"].setPath(path);
-
+					drones[data.node]["path"].setPath(path);
 				}
 				else{
-                    var pos = new google.maps.LatLng( data.lat, data.lng );
-                    var path = [pos]
-                    var marker = new google.maps.Marker({
-                        position: pos,
-                        label: data.name,
-						title: "Last Seen",
-                        map: map
-                    });
-                    var flightPath = new google.maps.Polyline({
+          var pos = new google.maps.LatLng( data.lat, data.lng );
+          var path = [pos]
+          var marker = new google.maps.Marker({
+              position: pos,
+              label: data.node,
+							title: "Last Seen",
+              map: map
+          });
+
+          var flightPath = new google.maps.Polyline({
 							path: path,
 							strokeColor: colors.pop(),
 							strokeOpacity: 0.8,
 							strokeWeight: 4
 						});
 
-            		flightPath.setMap(map);
-                    //console.log("dt==null", data.name,data.lat,data.lng);
-					var drone = {
-					    "marker" : marker,
+          flightPath.setMap(map);
+
+          var drone = {
+					  "marker" : marker,
 						"path" : flightPath
 					};
-                    drones[data.name]=drone;
-				}
+        drones[data.node]=drone;
+			}
 
-            });
-        };
-        ws.onclose = function() {
-            //ws = new WebSocket("ws://localhost:8080/");
-            ws = new WebSocket("ws://127.0.0.1:9000/");
-        };
+    });
 
-	</script-->
+	</script>
 
 </body>
 </html>
