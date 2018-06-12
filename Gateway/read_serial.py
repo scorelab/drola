@@ -87,7 +87,7 @@ def getSerialData(data,aes,error):
             plain = aes.decrypt(data[10:42])
             #print plain
             lat = float(plain[1:10])
-            lon = float(plain[11:20])
+            lng = float(plain[11:20])
             date = float(plain[21:25])
             time = float(plain[26:32])
 
@@ -95,9 +95,9 @@ def getSerialData(data,aes,error):
             # print id,": GPS_NOT_DETECTED"
             error = error + 1
         else:
-            dict.__setitem__("drone", id)
+            dict.__setitem__("node", id)
             dict.__setitem__("lat", lat)
-            dict.__setitem__("lon", lon)
+            dict.__setitem__("lng", lng)
             dict.__setitem__("date", int(date))
             dict.__setitem__("time", int(time))
             if error > 1 and lat < 99.9:

@@ -12,7 +12,7 @@ var bodyParser = require('body-parser');
 const pipeline = [
   {
     $match: {
-      'fullDocument.drone': {$exists:true, $gt : ""},
+      'fullDocument.node': {$exists:true, $gt : ""},
       $and: [{operationType: "insert" }]
     }
   },
