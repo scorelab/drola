@@ -14,20 +14,21 @@ collects gps data from jps module throught TinyGPSPLus and Software serial Libra
 
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
-#include <AESLib.h>
+#include "AES1.h"
+#include "Base64.h"
 
+AES aes;
 
+void gen_iv(byte  *iv);
 String getGPSData();
-void sendData(String data1);
+void sendData(char *data);
 static void smartDelay(unsigned long ms);
+
+String id="123123123";//"456456456"; // node ID
+int a;
 
 static const int RXPin = 10, TXPin = 11;
 static const uint32_t GPSBaud = 9600;
-
-uint8_t key[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31};
-uint8_t iv[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
-String id="123123123";//"456456456";
-int a;
 
 // The TinyGPS++ object
 TinyGPSPlus gps;
@@ -35,6 +36,15 @@ TinyGPSPlus gps;
 // The serial connection to the GPS device
 SoftwareSerial ss(RXPin, TXPin);
 
+//AES Security key and IV
+byte key[] = { 0x2B, 0x7E, 0x15, 0x16, 0x28, 0xAE, 0xD2, 0xA6, 0xAB, 0xF7, 0x15, 0x88, 0x09, 0xCF, 0x4F, 0x3C,0x2B, 0x7E, 0x15, 0x16, 0x28, 0xAE, 0xD2, 0xA6, 0xAB, 0xF7, 0x15, 0x88, 0x09, 0xCF, 0x4F, 0x3C };
+char my_iv[N_BLOCK]; //= "aaaaaaaaaaaaaaaa";//{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+//byte iv [N_BLOCK] ;
+char data[32];//= (unsigned char *)"L06.870808,79.880714,0718,184455";
+
+char b64data[58];
+char cipher[32];
+          
 void setup(){
   pinMode(3,INPUT); //gpio pin for AUX
   pinMode(4,OUTPUT);//gpio pin for M1
@@ -45,16 +55,20 @@ void setup(){
 
   Serial.begin(9600);
   ss.begin(GPSBaud);
-  //Serial.println(F("LoRa end Node demonstration"));
+  
+  aes.set_key( key , sizeof(key));  // Get the globally defined key
+  //gen_iv( my_iv );                  // Generate a random IV
+  //sendIV();
 }
 
-
+//------------------------------------------------------------------------
 void loop(){
-      String data1=getGPSData();
+      String data1="L06.870808,79.880714,0718,184455";//getGPSData();
+      strncpy(data,data1.c_str(),32);
       while(1){
           a=digitalRead(3);
               if(a==1){
-                  sendData(data1);
+                  sendData(data);
                   break;
                }else{
                   delay(100);
@@ -69,7 +83,36 @@ void loop(){
       }
 
 }
+//--------------------------AES Encryption and Send Data------------------------------------------------------------
+uint8_t getrnd() {
+    uint8_t really_random = *(volatile uint8_t *)0x3FF20E44;
+    return really_random;
+}
 
+// Generate a random initialization vector
+void gen_iv(byte  *iv) {
+    for (int i = 0 ; i < N_BLOCK ; i++ ) {
+        iv[i]= (byte) getrnd();
+    }
+}
+
+void sendIV() {
+  base64_encode( b64data, (char *)my_iv, N_BLOCK);
+  Serial.println("IVb64:" + String(b64data));
+}
+
+void sendData(char *data){
+  
+        byte my_iv[N_BLOCK] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        //strncpy(my_iv,"aaaaaaaaaaaaaaaa",16);
+        aes.do_aes_encrypt(data, 32 , cipher, key, 256, my_iv);
+        base64_encode(b64data, (char *)cipher, aes.get_size() );//Encode Encrypted data into base64
+        //Serial.println (String(b64data));
+        Serial.println(id+","+String(b64data));
+        //delay(100);
+  }
+
+//--------------------------------Gps Data---------------------------------------------------------
 static void smartDelay(unsigned long ms)
 {
   unsigned long start = millis();
@@ -79,18 +122,6 @@ static void smartDelay(unsigned long ms)
       gps.encode(ss.read());
   } while (millis() - start < ms);
 }
-
-void sendData(String data1){
-  char data[32] = "";
-            //"L06.870808,79.880714,0718,184455";//L<latitude>,<longitude>,<date>,<time>
-            strncpy(data,data1.c_str(),32);
-            aes_context ctx;
-            ctx = aes256_cbc_enc_start(key, iv);
-            aes_cbc_enc_continue(ctx, data, 32);
-            aes_cbc_enc_finish(ctx);
-            Serial.println(id+","+data);
-            //delay(100);
-  }
 
 String getGPSData(){
   String disp="";
@@ -150,3 +181,4 @@ String getGPSData(){
     //Serial.println(disp);
     return (disp);
  }
+//----------------------------------------------End--------------------------------------
