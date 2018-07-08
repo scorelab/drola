@@ -22,6 +22,8 @@ AES aes;
 void gen_iv(byte  *iv);
 String getGPSData();
 void sendData(char *data);
+void receiveData();
+void handler(char *data);
 static void smartDelay(unsigned long ms);
 
 String id="123123123";//"456456456"; // node ID
@@ -44,7 +46,9 @@ char data[32];//= (unsigned char *)"L06.870808,79.880714,0718,184455";
 
 char b64data[58];
 char cipher[32];
-          
+
+//-----------------------------------------setup-----------------------------
+
 void setup(){
   pinMode(3,INPUT); //gpio pin for AUX
   pinMode(4,OUTPUT);//gpio pin for M1
@@ -61,14 +65,17 @@ void setup(){
   //sendIV();
 }
 
-//------------------------------------------------------------------------
+//-------------------------------- main loop ----------------------------------------
+
 void loop(){
-      String data1="L06.870808,79.880714,0718,184455";//getGPSData();
+      String data1="06.870808,79.880714,0718,184455";//getGPSData();
       strncpy(data,data1.c_str(),32);
       while(1){
           a=digitalRead(3);
               if(a==1){
                   sendData(data);
+                  delay(100);
+                  receiveData();
                   break;
                }else{
                   delay(100);
@@ -78,12 +85,12 @@ void loop(){
     smartDelay(970);
 
     if (millis() > 5000 && gps.charsProcessed() < 10){
-        sendData("L99.999999,99.999999,9999,999999");
+        sendData("99.999999,99.999999,9999,999999");
         delay(1000);
       }
 
 }
-//--------------------------AES Encryption and Send Data------------------------------------------------------------
+//--------------------------AES Encryption Decryption------------------------------------------------------------
 uint8_t getrnd() {
     uint8_t really_random = *(volatile uint8_t *)0x3FF20E44;
     return really_random;
@@ -112,7 +119,36 @@ void sendData(char *data){
         //delay(100);
   }
 
-//--------------------------------Gps Data---------------------------------------------------------
+void receiveData(){
+    if(Serial.available()) {
+      String a=Serial.readString();
+      byte my_iv2[N_BLOCK] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+      int b64len=44;
+      char data2[32]="";
+      if(a.substring(0,9)=="456456456"){
+          strncpy(b64data,a.substring(10).c_str(),b64len);// read the incoming data as string       
+          int len2=base64_decode(cipher, b64data, b64len);
+          aes.do_aes_decrypt((char *)cipher, len2, data2, key, 256, my_iv2);
+          data2[32]='\0';
+          //Serial.println ("Plain: "+String(msg) +"  size: "+len2);
+          Serial.println ("Dec@Arduino:"+a.substring(0,9)+","+String(data2));
+          ///delay(1000);
+      }
+      else{
+          Serial.println(a.substring(0,9));
+      }
+}
+  }
+
+//--------------------------------Handler------------------------------------------------------------
+
+void handler(char *data){
+  
+  
+  }
+
+//--------------------------------Smart Delay---------------------------------------------------------
+
 static void smartDelay(unsigned long ms)
 {
   unsigned long start = millis();
@@ -122,6 +158,8 @@ static void smartDelay(unsigned long ms)
       gps.encode(ss.read());
   } while (millis() - start < ms);
 }
+
+//--------------------------------GPS Data---------------------------------------------------------
 
 String getGPSData(){
   String disp="";
