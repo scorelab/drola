@@ -1,0 +1,5 @@
+{
+  "eslint.enable": true,
+  "eslint.packageManager": "npm",
+  "eslint.autoFixOnSave": true
+}
