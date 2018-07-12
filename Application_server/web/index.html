@@ -15,7 +15,7 @@ Namal Jayasuriya
 <!-- Custom CSS -->
 <link href="css/style.css" rel='stylesheet' type='text/css' />
 <!-- Graph CSS -->
-<link href="css/font-awesome.css" rel="stylesheet"> 
+<link href="css/font-awesome.css" rel="stylesheet">
 <!-- jQuery -->
 <!-- lined-icons -->
 <link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
@@ -33,13 +33,13 @@ Namal Jayasuriya
 <!----webfonts--->clear
 
 <link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
-<!---//webfonts---> 
+<!---//webfonts--->
  <!-- Meters graphs -->
 <script src="js/jquery-1.10.2.min.js"></script>
 <!-- Placed js at the end of the document so the pages load faster -->
 
-</head> 
-   
+</head>
+
  <body class="sticky-header left-side-collapsed">
     <section>
     <!-- left side start-->
@@ -75,7 +75,7 @@ Namal Jayasuriya
 							</ul>
 						</li>
 
-						<li class="menu-list"><a href="#"><i class="lnr lnr-book"></i>  <span>Pages</span></a> 
+						<li class="menu-list"><a href="#"><i class="lnr lnr-book"></i>  <span>Pages</span></a>
 							<ul class="sub-menu-list">
 								<li><a href="sign-in.html">Sign In</a> </li>
 								<li><a href="sign-up.html">Sign Up</a></li>
@@ -86,12 +86,12 @@ Namal Jayasuriya
 			</div>
 		</div>
 		<!-- left side end-->
-    
+
 		<!-- main content start-->
 		<div class="main-content">
 			<!-- header-starts -->
 			<div class="header-section">
-			 
+
 			<!--toggle button start-->
 			<a class="toggle-btn  menu-collapsed"><i class="fa fa-bars"></i></a>
 			<!--toggle button end-->
@@ -123,33 +123,33 @@ Namal Jayasuriya
 										<!-- //search-scripts -->
 							</li>
 
-							<div class="clearfix"></div>	
+							<div class="clearfix"></div>
 						</ul>
 					</div>
 
-					<div class="profile_details">		
+					<div class="profile_details">
 						<ul>
 							<li class="dropdown profile_details_drop">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-									<div class="profile_img">	
+									<div class="profile_img">
 										<span style="background:url(images/user.png) no-repeat center"> </span>
 										 <div class="user-name">
 											<p>Namal<span>Administrator</span></p>
 										 </div>
 										 <i class="lnr lnr-chevron-down"></i>
 										 <i class="lnr lnr-chevron-up"></i>
-										<div class="clearfix"></div>	
-									</div>	
+										<div class="clearfix"></div>
+									</div>
 								</a>
 								<ul class="dropdown-menu drp-mnu">
-									<li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li> 
-									<li> <a href="#"><i class="fa fa-user"></i>Profile</a> </li> 
+									<li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li>
+									<li> <a href="#"><i class="fa fa-user"></i>Profile</a> </li>
 									<li> <a href="sign-up.html"><i class="fa fa-sign-out"></i> Logout</a> </li>
 								</ul>
 							</li>
 							<div class="clearfix"> </div>
 						</ul>
-					</div>		
+					</div>
 
 					<div class="clearfix"></div>
 				</div>
@@ -166,7 +166,7 @@ Namal Jayasuriya
 		</div>
         <!--footer section start-->
 			<footer>
-			   <p>&copy DroLa Admin Panel [SCORE][GSOC 2017]</p>
+			   <p>&copy DroLa Admin Panel [SCORE][GSOC 2018]</p>
 			</footer>
         <!--footer section end-->
 
@@ -175,8 +175,10 @@ Namal Jayasuriya
 
 <script src="js/jquery.nicescroll.js"></script>
 <script src="js/scripts.js"></script>
-<!-- Bootstrap Core JavaScript -->
-   <script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<!-- ========================= Google Map API ========================================= -->
 
 	<script>
         function initMap() {
@@ -185,75 +187,59 @@ Namal Jayasuriya
             var akurala ={lat:6.207258,lng:80.062729}
             map = new google.maps.Map(document.getElementById("maploaded"), {
                 zoom: 18,
-                center: uoc_ground//akurala//uoc_ground
+                center: uoc_ground//akurala
             });
             geocoder = new google.maps.Geocoder;
-
-
         }
 	</script>
-	<script async defer
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkHhuEUMXW6ActUczGPk_JCTEdh8_njw0&callback=initMap">
-	</script>
 
-     <script type="text/javascript" 
-        src="https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/web_socket.js">
-     </script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTCnk7sHaxM2URBlA-Uf5DkNkwC1QRJiw&callback=initMap"
+  type="text/javascript"></script>
 
+
+<!-- =================== socket client========================= -->
 	<script type="text/javascript">
 		var drones={};
 		var colors=["#FF0000","#00FF00","#0000FF"];
-		var ws = new WebSocket("ws://127.0.0.1:9000/");
-        ws.onopen = function() {
-            ws.send("Start");  // Sends a message.
-        };
-        ws.onmessage = function(e) {
-            // Receives a message.
-           //console.log(e.data);
-			$.each(JSON.parse(e.data),function (id,data) {
+		var socket = io.connect('http://localhost:3000');
 
-                //var dt=getDrone(data);
-                if(drones.hasOwnProperty(data.name)){
-                    var pos = new google.maps.LatLng( data.lat, data.lng );
-                	console.log(data.name,data.lat,data.lng);
-                    drones[data.name]["marker"].setPosition( pos );
+		socket.on('data', function (data) {
 
-                    var path = drones[data.name]["path"].getPath();
+      if(drones.hasOwnProperty(data.node)){
+          var pos = new google.maps.LatLng( data.lat, data.lng );
+          console.log(data.node,data.lat,data.lng);
+          drones[data.node]["marker"].setPosition( pos );
+          var path = drones[data.node]["path"].getPath();
 					path.push(pos);
-					drones[data.name]["path"].setPath(path);
-
+					drones[data.node]["path"].setPath(path);
 				}
 				else{
-                    var pos = new google.maps.LatLng( data.lat, data.lng );
-                    var path = [pos]
-                    var marker = new google.maps.Marker({
-                        position: pos,
-                        label: data.name,
-						title: "Last Seen",
-                        map: map
-                    });
-                    var flightPath = new google.maps.Polyline({
+          var pos = new google.maps.LatLng( data.lat, data.lng );
+          var path = [pos]
+          var marker = new google.maps.Marker({
+              position: pos,
+              label: data.node,
+							title: "Last Seen",
+              map: map
+          });
+
+          var flightPath = new google.maps.Polyline({
 							path: path,
 							strokeColor: colors.pop(),
 							strokeOpacity: 0.8,
 							strokeWeight: 4
 						});
 
-            		flightPath.setMap(map);
-                    //console.log("dt==null", data.name,data.lat,data.lng);
-					var drone = {
-					    "marker" : marker,
+          flightPath.setMap(map);
+
+          var drone = {
+					  "marker" : marker,
 						"path" : flightPath
 					};
-                    drones[data.name]=drone;
-				}
+        drones[data.node]=drone;
+			}
 
-            });
-        };
-        ws.onclose = function() {
-            //ws = new WebSocket("ws://localhost:8080/");
-            ws = new WebSocket("ws://127.0.0.1:9000/");
-        };
+    });
 
 	</script>
 
