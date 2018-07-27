@@ -59,10 +59,65 @@ void setup(){
 
   Serial.begin(9600);
   ss.begin(GPSBaud);
-  
+
   aes.set_key( key , sizeof(key));  // Get the globally defined key
   //gen_iv( my_iv );                  // Generate a random IV
   //sendIV();
+}
+
+//------------------------------header message parser---------------------------
+
+struct Header {
+  uint32_t sender;  //< 2^32
+  uint8_t app;  // < 2^8
+  uint8_t type; // <8
+  uint8_t ttl;  // <8
+  uint8_t mf;   // 0/1
+  uint16_t seq;  // <512
+};
+
+//generating message header for LoRa
+byte*  generate_header(struct Header header, byte header_arr[]){
+
+  //add sender id to header
+  for(int i=3; i>=0; i--)    // start with lowest byte of number
+  {
+    header_arr[i] = header.sender & 0xFF;  // or: = byte( number);
+    header.sender >>= 8;            // get next byte into position
+  }
+
+  //add app id to header
+  header_arr[4] = header.app;
+  //set last two bytes of header
+  header_arr[5] = (header.type << 5) | (header.ttl << 2) | (header.mf << 1) | (header.seq >> 8);
+  header_arr[6] = header.seq;
+  return header_arr;
+  }
+
+//parser to get data from header
+struct Header header_parser(byte* data, struct Header header){
+
+//parse sender id from the header
+ uint32_t sender=0;
+ for(int i=3; i>=0; i--)    // start with lowest byte of number
+  {
+    sender += uint32_t(data[i]) << 8*(3-i);  // or: = byte( number);
+  }
+  header.sender=sender;
+
+  //Serial.println(header.sender);
+  //parse app id from header
+  header.app=data[4];
+  //parse message_type from header
+  header.type=(data[5] & 0b11100000)>>5;
+  //parse ttl value from header
+  header.ttl=(data[5] & 0b00011100)>>2;
+  //parse more_frame bit from header
+  header.mf=(data[5] & 0b00000010)>>1;
+  //parse seq# from header
+  header.seq =  uint16_t(data[5] & 0b00000001)<<8 | data[6];
+
+  return header;
 }
 
 //-------------------------------- main loop ----------------------------------------
@@ -109,7 +164,7 @@ void sendIV() {
 }
 
 void sendData(char *data){
-  
+
         byte my_iv[N_BLOCK] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         //strncpy(my_iv,"aaaaaaaaaaaaaaaa",16);
         aes.do_aes_encrypt(data, 32 , cipher, key, 256, my_iv);
@@ -126,7 +181,7 @@ void receiveData(){
       int b64len=44;
       char data2[32]="";
       if(a.substring(0,9)=="456456456"){
-          strncpy(b64data,a.substring(10).c_str(),b64len);// read the incoming data as string       
+          strncpy(b64data,a.substring(10).c_str(),b64len);// read the incoming data as string
           int len2=base64_decode(cipher, b64data, b64len);
           aes.do_aes_decrypt((char *)cipher, len2, data2, key, 256, my_iv2);
           data2[32]='\0';
@@ -143,8 +198,8 @@ void receiveData(){
 //--------------------------------Handler------------------------------------------------------------
 
 void handler(char *data){
-  
-  
+
+
   }
 
 //--------------------------------Smart Delay---------------------------------------------------------
