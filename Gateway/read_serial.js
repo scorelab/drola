@@ -1,7 +1,7 @@
 var CryptoJS = require("crypto-js"); //npm install --save-dev crypto-js
 const SerialPort = require('serialport');
 
-var esp8266_iv  = 'AAAAAAAAAAAAAAAAAAAAAA==';//'YWFhYWFhYWFhYWFhYWFhYQ=='
+var esp8266_iv  = 'AAAAAAAAAAAAAAAAAAAAAA==';//'YWFhYWFhYWFhYWFhYWFhYssQ=='
 var AESKey = '2B7E151628AED2A6ABF7158809CF4F3C2B7E151628AED2A6ABF7158809CF4F3C';
 
 var plain_iv =  new Buffer( esp8266_iv , 'base64').toString('hex');
@@ -9,13 +9,15 @@ var iv = CryptoJS.enc.Hex.parse( plain_iv );
 var key= CryptoJS.enc.Hex.parse( AESKey );
 
 //----------------------------------------
-const Readline = SerialPort.parsers.Readline;
-const port = new SerialPort('/dev/ttyACM0');
-const parser = new Readline();
 
+const port = new SerialPort('/dev/cu.usbmodem1411');//('/dev/cu.SLAB_USBtoUART'); //('/dev/ttyACM0');
+const Readline = SerialPort.parsers.Readline;
+//const parser = new Readline();
 //read data from serial
-port.pipe(parser);
-//parser.on('data',console.log);
+//port.pipe(parser);
+
+const Delimiter = SerialPort.parsers.Delimiter;
+const parser = port.pipe(new Delimiter({delimiter: Buffer.from('\n')}));
 parser.on('data', handle );
 
 write();// Initial sending test data
@@ -46,12 +48,19 @@ function write(){
 
 }
 
-function handle(data){
+function handle(buf){
+  data=buf.toString('ascii');//String(buf);
   if(data.substr(0,9)=="123123123"){
-    decrypt(data)
+    if(data.substr(10).length > 30){
+      //console.log(data.substr(10));
+      decrypt(data)
+    }
+    else{
+      console.log("ERR: Currupted data => "+data.substr(10));
+    }
   }
   else{
-    console.log("==>"+data);
+    console.log("ERR: Node ID not identified => "+data);
   }
 
 }

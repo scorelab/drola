@@ -101,11 +101,10 @@ struct Header header_parser(byte* data, struct Header header){
  uint32_t sender=0;
  for(int i=3; i>=0; i--)    // start with lowest byte of number
   {
-    sender += uint32_t(data[i]) << 8*(3-i);  // or: = byte( number);
+    sender += uint32_t(data[i]) << 8*(3-i);  //calculate value od 32bit data step by spep
   }
   header.sender=sender;
 
-  //Serial.println(header.sender);
   //parse app id from header
   header.app=data[4];
   //parse message_type from header
@@ -145,6 +144,7 @@ void loop(){
       }
 
 }
+
 //--------------------------AES Encryption Decryption------------------------------------------------------------
 uint8_t getrnd() {
     uint8_t really_random = *(volatile uint8_t *)0x3FF20E44;
