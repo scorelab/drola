@@ -76,9 +76,11 @@ struct Header {
   uint16_t seq;  // <512
 };
 
-//generating message header for LoRa
-byte*  generate_header(struct Header header, byte header_arr[]){
+//-------------generating message header for LoRa--------------
 
+char*  generate_header(struct Header header, char header_arr[]){
+
+  //char header_arr[7];
   //add sender id to header
   for(int i=3; i>=0; i--)    // start with lowest byte of number
   {
@@ -91,10 +93,12 @@ byte*  generate_header(struct Header header, byte header_arr[]){
   //set last two bytes of header
   header_arr[5] = (header.type << 5) | (header.ttl << 2) | (header.mf << 1) | (header.seq >> 8);
   header_arr[6] = header.seq;
+  //header_arr[7] = 7;
   return header_arr;
   }
 
-//parser to get data from header
+//--------------parser to get data from header-----------------
+
 struct Header header_parser(byte* data, struct Header header){
 
 //parse sender id from the header
@@ -170,7 +174,15 @@ void sendData(char *data){
         aes.do_aes_encrypt(data, 32 , cipher, key, 256, my_iv);
         base64_encode(b64data, (char *)cipher, aes.get_size() );//Encode Encrypted data into base64
         //Serial.println (String(b64data));
-        Serial.println(id+","+String(b64data));
+        //heder data
+        struct Header header={4294967295,131,5,3,1,511};
+        char msg[58];
+        //generate header
+        generate_header(header,msg);
+        //add message data to msg array
+        memcpy(msg+7,b64data,44);
+        
+        Serial.println(String(msg));
         //delay(100);
   }
 

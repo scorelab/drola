@@ -1,5 +1,6 @@
-var CryptoJS = require("crypto-js"); //npm install --save-dev crypto-js
+const CryptoJS = require("crypto-js"); //npm install --save-dev crypto-js
 const SerialPort = require('serialport');
+const header = require('./parser');
 
 var esp8266_iv  = 'AAAAAAAAAAAAAAAAAAAAAA==';//'YWFhYWFhYWFhYWFhYWFhYssQ=='
 var AESKey = '2B7E151628AED2A6ABF7158809CF4F3C2B7E151628AED2A6ABF7158809CF4F3C';
@@ -25,11 +26,12 @@ write();// Initial sending test data
 //------------------------------------------------------
 
 function decrypt(data){ // Decrypt Data  ( data=base4_encode(aes256_encrypted )
-  var bytes  = CryptoJS.AES.decrypt( data.substr(10), key , { iv: iv} );
+  var bytes  = CryptoJS.AES.decrypt( data, key , { iv: iv} );
   var plaintext = bytes.toString(CryptoJS.enc.Base64);
   var decoded_b64msg =  new Buffer(plaintext , 'base64').toString('ascii');
-  console.log("Dec@JS:",data.substr(0,9),"->", decoded_b64msg);
-  write();// temporary reply to test
+  return decoded_b64msg;
+  //console.log("Dec@JS:",data.substr(0,9),"->", decoded_b64msg);
+  //write();// temporary reply to test
 }
 
 function encrypt(data){
@@ -49,18 +51,23 @@ function write(){
 }
 
 function handle(buf){
-  data=buf.toString('ascii');//String(buf);
-  if(data.substr(0,9)=="123123123"){
-    if(data.substr(10).length > 30){
-      //console.log(data.substr(10));
-      decrypt(data)
-    }
-    else{
-      console.log("ERR: Currupted data => "+data.substr(10));
-    }
+  var data={'header':{},'message':""}
+
+  raw_data=(buf.slice(7,51)).toString('ascii'); //String(buf);
+  //parse header
+  data.header = header.header_parser( buf.slice(0,7) );
+  //decrypt message
+  if(raw_data.length > 30){
+    //console.log(raw_data);
+    data.message = decrypt(raw_data);
   }
   else{
-    console.log("ERR: Node ID not identified => "+data);
+    console.log("ERR: Currupted data => " + data.substr(10));
   }
+  //processes data considering header data
+  console.log(data)
+
+  //send ressponse
+  //write();
 
 }
