@@ -30,7 +30,7 @@ Namal Jayasuriya
 		 new WOW().init();
 	</script>
 <!--//end-animate-->
-<!----webfonts--->clear
+<!----webfonts--->
 
 <link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
 <!---//webfonts--->
@@ -186,7 +186,7 @@ Namal Jayasuriya
             var uoc_ground = {lat:6.900824,lng:79.860342};//6.900824, 79.860342
             var akurala ={lat:6.207258,lng:80.062729}
             map = new google.maps.Map(document.getElementById("maploaded"), {
-                zoom: 18,
+                zoom: 17,
                 center: uoc_ground//akurala
             });
             geocoder = new google.maps.Geocoder;
@@ -204,7 +204,7 @@ Namal Jayasuriya
 		var socket = io.connect('http://localhost:3000');
 
 		socket.on('data', function (data) {
-
+			//console.log(data.node);
       if(drones.hasOwnProperty(data.node)){
           var pos = new google.maps.LatLng( data.lat, data.lng );
           console.log(data.node,data.lat,data.lng);
