@@ -1,19 +1,28 @@
-
 const SerialPort = require('serialport');
+const net = require('net');
 const header = require('./parser');
 const config = require('./config');
 const crypto = require('./crypto');
 
-//----------------------------------------
+//----------- Serial Connection -----------------------------
 
 const port = new SerialPort(config.SER_PORT);//('/dev/cu.SLAB_USBtoUART'); //('/dev/ttyACM0');
 //const Readline = SerialPort.parsers.Readline;s
 const Delimiter = SerialPort.parsers.Delimiter;
 const parser = port.pipe(new Delimiter({delimiter: Buffer.from('\n')}));
-parser.on('data', handle );
+parser.on('data', handle);
 
 //write();// Initial sending test data
+//---------- TCP Client to forward data -------------
 
+
+const client = new net.Socket();
+
+client.connect(config.TCP_PORT, config.TCP_HOST, function() {
+    console.log('------ Connected To Remote Application Server -------');
+    //client.write("Hello From Client " + client.address().address);
+});
+//client.write("Hello From Client " + client.address().address);
 //------------------------------------------------------
 
 function write(header,msg){
@@ -40,7 +49,8 @@ function handle(buf){
   if(data.header.app == 131 ){
     //console.log(raw_data);
     data.message = crypto.decrypt(raw_data);
-    console.log(data)
+    //console.log(data)
+    client.write(JSON.stringify(data));
   }
   else{
     console.log("ERR: Currupted data => " + String(buf));
