@@ -1,11 +1,13 @@
 
 const change_stream = require('./database/change_stream');
 const config = require('../config.js');
-
+const msg_parser = require('./handlers/message_parser');
+const net = require('net');
 
 
 function back_end_service(io){
     console.log("\n-------Back End Services Started--------\n");
+
 
     // ------------------socket connection------------------------
     //create a socket connection using socket.io
@@ -17,6 +19,7 @@ function back_end_service(io){
     });
 
     //-------------------mongo change stream---------------------
+    console.log("------- Notofying DB Changes... ---------");
     change_stream.NOTIFY_DATABASE_CHANGES(socket);
 
     //----------------insert data---------------------------
@@ -24,16 +27,57 @@ function back_end_service(io){
       insert_temp_data();
     }
     else if (config.MODE == "live") {
-      insert_data();
+      insert_data_from_server();
     }
     else{
       console.log("ERR : Mode "+config.MODE+"is Not Defined");
     }
   }
+    // ------------------TCP Server---------------------
+    //Create server
+    let sockets = [];
 
-function insert_data(){
+    const server = net.createServer();
+        server.listen(config.TCP_PORT, config.TCP_HOST, () => {
+          console.log('------- TCP Server is running on port ' + config.TCP_PORT + ' --------');
+    });
 
-}
+  //----------litening live data through sserver and write to real time data base--------
+  function insert_data_from_server(){
+        //----------- server i listenenig ------------------
+        server.on('connection', function(sock) {
+          console.log('CONNECTED: ' + sock.remoteAddress + ':' + sock.remotePort);
+          sockets.push(sock);
+
+            //---------- 'data' event handler ---------------
+            sock.on('data', function(data) {
+                var json_data = JSON.parse(data.toString('utf8'));
+                //ToDo Verify mesage header
+                //ToDo decrypt message
+                var json_msg = msg_parser.MESSAGE_PARSER(json_data.header.sender, json_data.message);
+                console.log('DATA : '+JSON.stringify(json_msg)); // + sock.remoteAddress
+                //insert data to realtime database
+                change_stream.INSERT_ONE(json_msg);
+
+                // Write the data back to all the connected, the client will receive it as data from the server
+                //sockets.forEach(function(sock, index, array) {
+                //    sock.write(sock.remoteAddress + ':' + sock.remotePort + " said " + data + '\n');
+                //});
+            });
+
+            //--------- 'close' event handler --------------
+            sock.on('close', function(data) {
+                let index = sockets.findIndex(function(o) {
+                    return o.remoteAddress === sock.remoteAddress && o.remotePort === sock.remotePort;
+                })
+                if (index !== -1) sockets.splice(index, 1);
+                console.log('CLOSED: ' + sock.remoteAddress + ' ' + sock.remotePort);
+            });
+        });
+  }
+
+//-----------method to insert dummy data to real time database-------------
+
 function insert_temp_data(){
 
   var d1 = { "node": 123123123, "lat":6.899715, "lng":79.860403, "date":1223, "time":334423 };
@@ -74,5 +118,7 @@ function insert_temp_data(){
                   }, 8000);
 
    }
+
+//--------------export moduless-------------------
 
   module.exports.BACK_END_SERVICE = back_end_service;

@@ -1,10 +1,7 @@
 
 
-
-module.exports = {
-
     //generating message header for LoRa
-    generate_header : function  (header){
+    function  generate_header(header){
       var header_buff =  new Buffer(7);
       //add sender id to header
       for(var i=3; i>=0; i--)    // start with lowest byte of number
@@ -21,7 +18,7 @@ module.exports = {
     },
 
     //parser to get data from header
-    header_parser : function (buffer){
+    function header_parser(buffer){
 
       var header_data = {"sender":0, "app":0, "type":0, "ttl":0, "mf":0, "seq_num":0};
       //parse sender id from the header
@@ -41,4 +38,9 @@ module.exports = {
       return(header_data);
     }
 
-};
+    module.exports = {
+
+        GENERATE_HEADER : generate_header,
+        HEADER_PARSER : header_parser
+
+    }

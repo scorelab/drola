@@ -207,7 +207,7 @@ Namal Jayasuriya
 			//console.log(data.node);
       if(drones.hasOwnProperty(data.node)){
           var pos = new google.maps.LatLng( data.lat, data.lng );
-          console.log(data.node,data.lat,data.lng);
+          console.log(data.node,data.lat,data.lng,data.time);
           drones[data.node]["marker"].setPosition( pos );
           var path = drones[data.node]["path"].getPath();
 					path.push(pos);

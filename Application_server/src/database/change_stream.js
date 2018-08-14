@@ -33,9 +33,8 @@ function notify_db_changes(socket){
           let changeStream = collection.watch(pipeline);
 
           // start listen to changes
-          console.log("Notofying Changes...");
           changeStream.on("change", (change)=> {
-              console.log(change.fullDocument.node+", "+change.fullDocument.lat+", "+change.fullDocument.lng+","+change.fullDocument.time);
+              //console.log(change.fullDocument.node+", "+change.fullDocument.lat+", "+change.fullDocument.lng+","+change.fullDocument.time);
               //forward the notified changes to client via socket
               socket.emit('data', change.fullDocument);
           })
