@@ -14,8 +14,9 @@ Use the schematic file and png file  which are under LoRa_End_Node/ directory fo
 
 #Add the following libraries to arduino using Zip files which are available in the internet
 
-'TinyGPS++'
-'SoftwareSerial'
+`TinyGPS++`
+
+`SoftwareSerial`
 
 
 #configuration
