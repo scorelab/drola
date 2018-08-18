@@ -6,6 +6,7 @@ CP210x USB to UART Bridge VCP Drivers
 #installation
 
 `npm install serialport --build-from-source --save`
+
 `npm install --save-dev crypto-js`
 
 
