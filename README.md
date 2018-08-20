@@ -1,40 +1,26 @@
-﻿# drola
-DroLa : A Drone Monitering System using LORA
+﻿# DroLa Generalized
+DroLa : A LoRa Base Low Power Wide Area Network for both Fixed and Moving Sensor Systems.
 
-We introduce a seperate Hardware unit for drones which can easily mount on any kind of commercial or non-commercial drones. DroLa End node consist with a GPS module, microcontroller, LoRa module and a seperate battery.
+We introduce a Hardware unit for Sensor nodes which can easily connect with any kind of arduino base sensors and on any kind of environment Fixed or moving. DroLa End node consist with micro-controller, LoRa module, a separate battery and one or more arduino base sensor modules.
 
-setup the units according to the shematics given. End node microcontroller should contain the given firmware. Communication hannel and addresses of Lora modules should be according to the given firmware.
+This system has three main modules
+Application server
+Lora Gateway
+Sensor Node (LoRa_End_Node)
 
-Clone this project at the Base station. Run the following command to install the node module dependencies.
+Hardware setup
 
-`npm install`
+Setup the Hardware units, Attaching your sensor modules to the schematics given. End node micro-controller should contain the given firmware. Communication channel and addresses of Lora modules should be according to the given firmware. You can write new functions to get your sensor data and call them inside main loop to pass to the send method. You can write your own code to handle the received messages which are specific to your application.
 
-Connect the configured base station lora module to the base station computer. You can start the web server by running following command.
+Setup the Hardware LoRa Gateway following the instruction given in the README file in the Gateway module
 
-`npm start`
+Software Setting Up:
+Clone this project in your workspace. Follow the instructions given in main three modules to setup the system.
+To setup the end node first create the hardware module and then upload the firmware customised by you according to your application.
 
-Then you should start the Web socket server and web socket client to see the the end node locations at the browser application.
+To setup the gate way you can use a single board computer like a Raspberry PI and Attach the lora Gateway module for multichannel gateway or a normal Lora module for a single channel gate way then copy the Gateway module of this software to that single board computer and follow the instructions given in the README file of it.
 
-`cd Drola_Base_node`
+TO setting up the Application server use can use a server machine or a Normal computer and follow the instructions in the README file of Application Server module.
 
-`pyhton socket_server.py`
 
-`python read_serial.py`
-
-Then open a browser tab and goto the following url it will see all the locations of the live End Nodes.
-
-http://localhost:3000/
-
-you can test the api by running socket_client.py instead of read_serial.py . It will show you some hardcoded locations.
-
-Truted zones are not implemented yet to protect AES keys. The keys are hardcoded in this version.
-  
-Base Node Application
-
-![Base Node App](/Drola_Base_Node/Drola_snap_4.png?raw=true "Optional Title1")
-
-DroLa End Node
-
-![End Node](/LoRa_End_Node/Drola_end_node.jpg?raw=true "Optional Title2")
-
-For more informationa please refer the [Wiki](https://github.com/NamalJayasuriya/drola/wiki/Drola)page.
+For system architecture Refer [Blog: LET'S START JANA](https://letstartjana.blogspot.com/).
