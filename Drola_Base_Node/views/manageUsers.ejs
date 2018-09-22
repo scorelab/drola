@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Drone Portal</title>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        .jumbotron-fluid, .card{
+            background-color: #ffffff87;
+        }
+    </style>
+</head>
+
+<body background="https://www.mobilefun.co.uk/blog/wp-content/uploads/2016/05/1202_drone_1433.jpg" style="background-repeat: no-repeat; background-size: cover">
+<!--Jumbotron heading-->
+<div class="container-fluid">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">All Registered Users</h1>
+            <p class="lead">All users, registered either through user or admin portal are show here.</p>
+        </div>
+    </div>
+
+    <% data.forEach(function (val) {%>
+        <div class="card">
+            <h5 class="card-header"><%= val.name %></h5>
+            <div class="card-body">
+                <h5 class="card-title">User_id: <%= val._id %></h5>
+                <p class="card-text">Email_id: <%= val.email %></p>
+                <a href="/admin/userDetails/<%=val._id%>" class="btn btn-primary">Details</a>&nbsp;&nbsp;&nbsp;<a href="/admin/delete/<%=val._id%>" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+        <br>
+    <%});%>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

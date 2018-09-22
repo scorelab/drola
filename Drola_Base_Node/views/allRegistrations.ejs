@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial;
+            color: white;
+        }
+
+        .split {
+            height: 100%;
+            width: 50%;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        .left {
+            left: 0;
+            background-color: black;
+        }
+
+        .right {
+            right: 0;
+            background-color: red;
+        }
+
+        .card{
+            margin-left: 3%;
+            margin-right: 3%;
+        }
+
+        .jumbotron-fluid{
+            background-color: #ffffff00;
+        }
+    </style>
+</head>
+<body>
+
+<div class="split left">
+    <div class="container-fluid">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container" style="color: red">
+                <h1 class="display-4">All Registrations</h1>
+                <p class="lead">All requests submitted by the user.</p>
+            </div>
+        </div>
+
+        <% user.forEach(function (val) {%>
+            <%if(val.verification_status==='false'){%>
+                <div class="card" style="color: black">
+                    <h5 class="card-header"><%= val.name %> (Drone model number: <%= val.droneId %>)</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Drone Id: <%= val._id %></h5>
+                        <p class="card-text"><strong>Drone Model Name:</strong> <%= val.droneModel %></p>
+                        <p class="card-text"><strong>Verification Status:</strong> Not Approved</p>
+                        <a href="/admin/userDetails/<%=val.userId%>" class="btn btn-primary">Details</a>&nbsp;&nbsp;&nbsp;<a href="/admin/deleteDrone/<%=val._id%>" class="btn btn-danger">Delete</a>&nbsp;&nbsp;
+                        <form action="/admin/approveDrone/<%=val._id%>" method="post" style="display: inline">
+                            <button type="submit" class="btn btn-success">Approve</button>
+                        </form>
+                    </div>
+                </div>
+                <br>
+            <%}%>
+        <%});%>
+    </div>
+</div>
+
+<div class="split right">
+    <div class="container-fluid">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container" style="color: black">
+                <h1 class="display-4">All Approved Users</h1>
+                <p class="lead">All requests approved by admin.</p>
+            </div>
+        </div>
+
+        <% user.forEach(function (val) {%>
+            <%if(val.verification_status==='true'){%>
+                <div class="card" style="color: black">
+                    <h5 class="card-header"><%= val.name %> (Drone model number: <%= val.droneId %>)</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Drone Id: <%= val._id %></h5>
+                        <p class="card-text"><strong>Drone Model Name:</strong> <%= val.droneModel %></p>
+                        <p class="card-text"><strong>Verification Status:</strong> Approved</p>
+                        <a href="/admin/userDetails/<%=val.userId%>" class="btn btn-primary">Details</a>&nbsp;&nbsp;&nbsp;<a href="/admin/deleteDrone/<%=val._id%>" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+                <br>
+            <%}%>
+        <%});%>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html> 

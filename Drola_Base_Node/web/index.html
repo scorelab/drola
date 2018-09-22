@@ -1,261 +1,121 @@
-<!--
-DroLa [SCORE][GSOC2017]
-Namal Jayasuriya
--->
 <!DOCTYPE HTML>
 <html>
-<head>
-<title>DroLa Admin Pannel</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content=" drola admin pannel" />
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
- <!-- Bootstrap Core CSS -->
-<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
-<!-- Custom CSS -->
-<link href="css/style.css" rel='stylesheet' type='text/css' />
-<!-- Graph CSS -->
-<link href="css/font-awesome.css" rel="stylesheet"> 
-<!-- jQuery -->
-<!-- lined-icons -->
-<link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
-<!-- //lined-icons -->
-<!-- chart -->
-<script src="js/Chart.js"></script>
-<!-- //chart -->
-<!--animate-->
-<link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
-<script src="js/wow.min.js"></script>
-	<script>
-		 new WOW().init();
-	</script>
-<!--//end-animate-->
-<!----webfonts--->clear
+	<head>
+		<title>Drone Portal</title>
+		<meta charset="utf-8" />
+		
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
 
-<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
-<!---//webfonts---> 
- <!-- Meters graphs -->
-<script src="js/jquery-1.10.2.min.js"></script>
-<!-- Placed js at the end of the document so the pages load faster -->
+		<style type="text/css">
+			#header{
+				background: linear-gradient( to right, #9A2E36, #1E1B44);
+			}
 
-</head> 
-   
- <body class="sticky-header left-side-collapsed">
-    <section>
-    <!-- left side start-->
-		<div class="left-side sticky-left-side">
+			.wrapper{
+				margin-bottom: -100px;
+			}
+		</style>
+	</head>
+	<body>
 
-			<!--logo and iconic logo start-->
-			<div class="logo">
-				<h1><a href="index.html">DroLa <span>Admin</span></a></h1>
-			</div>
-			<div class="logo-icon text-center">
-				<a href="index.html"><i class="lnr lnr-home"></i> </a>
-			</div>
+		<!-- Header -->
+			<header id="header">
+				<a class="logo" href="index.html">Drone Registration and Management</a>
+				<nav>
+					<a href="#menu">Menu</a>
+				</nav>
+			</header>
+			
 
-			<!--logo and iconic logo end-->
-			<div class="left-side-inner">
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="/adminPortal">Admin Portal</a></li>
+					<li><a href="/register">User Portal</a></li>
+				</ul>
+			</nav>
 
-				<!--sidebar nav start-->
-					<ul class="nav nav-pills nav-stacked custom-nav">
-						<li class="active"><a href="index.html"><i class="lnr lnr-power-switch"></i><span>Dashboard</span></a></li>
-						<li class="menu-list">
-							<a href="#"><i class="lnr lnr-cog"></i>
-								<span>Components</span></a>
-								<ul class="sub-menu-list">
-									<li><a href="#">Settings</a> </li>
+		<!-- Banner -->
+			<section id="banner">
+				<div class="inner">
+					<h1>Drone Management</h1>
+					<p>An online portal for drone registration, approval and management. 
+					Making it easy for your organization to manage drone flights and users.</p>
 
-								</ul>
-						</li>
-						<li><a href="tables.html"><i class="lnr lnr-menu"></i> <span>Drones</span></a></li>
-						<li class="menu-list"><a href="#"><i class="lnr lnr-envelope"></i> <span>MailBox</span></a>
-							<ul class="sub-menu-list">
-								<li><a href="inbox.html">Inbox</a> </li>
-								<li><a href="compose-mail.html">Compose Mail</a></li>
-							</ul>
-						</li>
+					<a href="/adminPortal" class="button">Admin Portal</a>
+					<a href="/register" class="button">User Portal</a>
 
-						<li class="menu-list"><a href="#"><i class="lnr lnr-book"></i>  <span>Pages</span></a> 
-							<ul class="sub-menu-list">
-								<li><a href="sign-in.html">Sign In</a> </li>
-								<li><a href="sign-up.html">Sign Up</a></li>
-							</ul>
-						</li>
-					</ul>
-				<!--sidebar nav end-->
-			</div>
-		</div>
-		<!-- left side end-->
-    
-		<!-- main content start-->
-		<div class="main-content">
-			<!-- header-starts -->
-			<div class="header-section">
-			 
-			<!--toggle button start-->
-			<a class="toggle-btn  menu-collapsed"><i class="fa fa-bars"></i></a>
-			<!--toggle button end-->
+				</div>
+				<video autoplay loop muted playsinline src="images/banner.mp4"></video>
+			</section>
 
-			<!--notification menu start -->
-			<div class="menu-right">
-				<div class="user-panel-top">
-
-					<div class="profile_details_left">
-						<ul class="nofitications-dropdown">
-
-
-							<li class="login_box" id="loginContainer">
-									<div class="search-box">
-										<div id="sb-search" class="sb-search">
-											<form>
-												<input class="sb-search-input" placeholder="Enter your search term..." type="search" id="search">
-												<input class="sb-search-submit" type="submit" value="">
-												<span class="sb-icon-search"> </span>
-											</form>
-										</div>
-									</div>
-										<!-- search-scripts -->
-										<script src="js/classie.js"></script>
-										<script src="js/uisearch.js"></script>
-											<script>
-												new UISearch( document.getElementById( 'sb-search' ) );
-											</script>
-										<!-- //search-scripts -->
-							</li>
-
-							<div class="clearfix"></div>	
-						</ul>
+		<!-- Highlights -->
+			<section class="wrapper">
+				<div class="inner">
+					<header class="special">
+						<h2>Authentication steps</h2>
+						<h4><strong>Registering the drones before usage is a mandate. For registering and authentication of your drone by the admins, please follow the steps :- <strong>
+						</h4>
+					</header>
+					<div class="highlights">
+						<section>
+							<div class="content">
+								<header>
+									<p class="far fa-address-card" style="font-size: 80px; 
+									color: #22224C "></p>
+									<h3>Submit Request</h3>
+								</header>
+								<p>Request needs to be submitted for drone registration along with all personal details and the details of the drone.</p>
+							</div>
+						</section>
+						<section>
+							<div class="content">
+								<header>
+									<p class="far fa-thumbs-up" style="font-size: 80px; 
+									color: #22224C "></p>
+									<h3>Approval</h3>
+								</header>
+								<p>The submitted reques will be verified by the admins and shall be approved, all the details will be stored and usage will be monitored.</p>
+							</div>
+						</section>
+						<section>
+							<div class="content">
+								<header>
+									<p class="fas fa-plane" style="font-size: 80px; 
+									color: #22224C "></p>
+									<h3>Fly your drone</h3>
+								</header>
+								<p>Each drone will be assigned a authentication token by the admins, and then you can fly your drone legally. All your activities shall be monitored.</p>
+							</div>
+						</section>
 					</div>
-
-					<div class="profile_details">		
-						<ul>
-							<li class="dropdown profile_details_drop">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-									<div class="profile_img">	
-										<span style="background:url(images/user.png) no-repeat center"> </span>
-										 <div class="user-name">
-											<p>Namal<span>Administrator</span></p>
-										 </div>
-										 <i class="lnr lnr-chevron-down"></i>
-										 <i class="lnr lnr-chevron-up"></i>
-										<div class="clearfix"></div>	
-									</div>	
-								</a>
-								<ul class="dropdown-menu drp-mnu">
-									<li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li> 
-									<li> <a href="#"><i class="fa fa-user"></i>Profile</a> </li> 
-									<li> <a href="sign-up.html"><i class="fa fa-sign-out"></i> Logout</a> </li>
-								</ul>
-							</li>
-							<div class="clearfix"> </div>
-						</ul>
-					</div>		
-
-					<div class="clearfix"></div>
 				</div>
-			  </div>
-			<!--notification menu end -->
-			</div>
+			</section>
 
-			<div class="col-md-4 span_8 scrollbar" style="width: 100%; height: 1000px" id="maploaded"> </div>
-
+		<!-- CTA -->
+			<section id="cta" class="wrapper">
+				<div class="inner">
+					<h2>Need of Drone maintenance portal</h2>
+					<p>One of the biggest hurdles to mass adoption of drones is the numerous regulations that restrict what drone owners and operators can do.Such challenges include the need to ensure that drones are operated safely, without harming public and national security, and in a way that would protect areas of national, historical, or natural importance. Changes in aviation laws have been done in many countries like Australia, Canada, China, France, India etc.</p>
 				</div>
-			<!--body wrapper start-->
-			</div>
-			 <!--body wrapper end-->
-		</div>
-        <!--footer section start-->
+			</section>
+			<br><br><br><br><br>
 			<footer>
-			   <p>&copy DroLa Admin Panel [SCORE][GSOC 2017]</p>
+				<div align="right">
+					<div>
+						<p style="font-family: Monotype Corsiva; font-size: 20px">-GSoC proposal 2018 &nbsp;&nbsp;</p>
+					</div>
+				</div>
 			</footer>
-        <!--footer section end-->
 
-      <!-- main content end-->
-   </section>
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
 
-<script src="js/jquery.nicescroll.js"></script>
-<script src="js/scripts.js"></script>
-<!-- Bootstrap Core JavaScript -->
-   <script src="js/bootstrap.min.js"></script>
-
-	<script>
-        function initMap() {
-            var home ={ lat:6.827059, lng:80.152336};
-            var uoc_ground = {lat:6.900824,lng:79.860342};//6.900824, 79.860342
-            var akurala ={lat:6.207258,lng:80.062729}
-            map = new google.maps.Map(document.getElementById("maploaded"), {
-                zoom: 18,
-                center: uoc_ground//akurala//uoc_ground
-            });
-            geocoder = new google.maps.Geocoder;
-
-
-        }
-	</script>
-	<script async defer
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkHhuEUMXW6ActUczGPk_JCTEdh8_njw0&callback=initMap">
-	</script>
-
-     <script type="text/javascript" 
-        src="https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/web_socket.js">
-     </script>
-
-	<script type="text/javascript">
-		var drones={};
-		var colors=["#FF0000","#00FF00","#0000FF"];
-		var ws = new WebSocket("ws://127.0.0.1:9000/");
-        ws.onopen = function() {
-            ws.send("Start");  // Sends a message.
-        };
-        ws.onmessage = function(e) {
-            // Receives a message.
-           //console.log(e.data);
-			$.each(JSON.parse(e.data),function (id,data) {
-
-                //var dt=getDrone(data);
-                if(drones.hasOwnProperty(data.name)){
-                    var pos = new google.maps.LatLng( data.lat, data.lng );
-                	console.log(data.name,data.lat,data.lng);
-                    drones[data.name]["marker"].setPosition( pos );
-
-                    var path = drones[data.name]["path"].getPath();
-					path.push(pos);
-					drones[data.name]["path"].setPath(path);
-
-				}
-				else{
-                    var pos = new google.maps.LatLng( data.lat, data.lng );
-                    var path = [pos]
-                    var marker = new google.maps.Marker({
-                        position: pos,
-                        label: data.name,
-						title: "Last Seen",
-                        map: map
-                    });
-                    var flightPath = new google.maps.Polyline({
-							path: path,
-							strokeColor: colors.pop(),
-							strokeOpacity: 0.8,
-							strokeWeight: 4
-						});
-
-            		flightPath.setMap(map);
-                    //console.log("dt==null", data.name,data.lat,data.lng);
-					var drone = {
-					    "marker" : marker,
-						"path" : flightPath
-					};
-                    drones[data.name]=drone;
-				}
-
-            });
-        };
-        ws.onclose = function() {
-            //ws = new WebSocket("ws://localhost:8080/");
-            ws = new WebSocket("ws://127.0.0.1:9000/");
-        };
-
-	</script>
-
-</body>
+	</body>
 </html>

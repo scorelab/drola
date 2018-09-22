@@ -1,27 +1,70 @@
-var express = require("express");
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-//var re=require("socket");
-var CronJob = require('cron').CronJob;
+let express = require("express");
+let cookieParser = require('cookie-parser');
+let path = require('path');
+let expressValidator = require('express-validator');
+let flash = require('connect-flash');
+let session = require('express-session');
+let passport = require('passport');
+let mongoose = require('mongoose');
 
-var app = express();
+//let re=require("socket");
+
+// Connecting database
+mongoose.connect('mongodb://localhost/droneSystem');
+
+// Initializing express app
+let app = express();
 app.use(cookieParser());
-app.use(bodyParser.json());
 
-var router = express.Router();
-var path = __dirname + '/';
+// Setting the view-engine
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
-router.use(function (req,res,next) {
+let index = require('./routes/index');
+let admin = require('./routes/admin');
+
+// Express Session
+app.use(session({
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true
+}));
+
+// Express Validator
+app.use(expressValidator({
+    errorFormatter: function(param, msg, value) {
+        let namespace = param.split('.')
+            , root    = namespace.shift()
+            , formParam = root;
+
+        while(namespace.length) {
+            formParam += '[' + namespace.shift() + ']';
+        }
+        return {
+            param : formParam,
+            msg   : msg,
+            value : value
+        };
+    }
+}));
+
+// Connect Flash
+app.use(flash());
+
+// Global Vars
+app.use(function (req, res, next) {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    res.locals.user = req.user || null;
     next();
 });
 
-router.get("/",function(req,res){
-    //checkAndredirect(req,res);
-    res.sendFile(path + "web/index.html");
-});
-
-app.use("/",router);
+// Associating the routes
+app.use("/",index);
+app.use('/admin', admin);
 app.use("/css",express.static('web/css'));
+app.use("/assets",express.static('web/assets'));
 app.use("/js",express.static('web/js'));
 app.use("/images",express.static('web/images'));
 app.use("/fonts",express.static('web/fonts'));
@@ -33,10 +76,10 @@ app.listen(3000,function(){
 
 ///================Web socket server ======================//
 /*
-var WebSocketServer = require('websocket').server;
-var http = require('http');
+let WebSocketServer = require('websocket').server;
+let http = require('http');
 
-var server = http.createServer(function(request, response) {
+let server = http.createServer(function(request, response) {
     console.log((new Date()) + ' Received request for ' + request.url);
     response.writeHead(404);
     response.end();
@@ -45,15 +88,15 @@ server.listen(8080, function() {
     console.log((new Date()) + 'Data Socket is listening on port 8080');
 });
 
-var wsServer = new WebSocketServer({
+let wsServer = new WebSocketServer({
     httpServer: server,
 
     autoAcceptConnections: false
 });
 
-var listners=[];
+let listners=[];
 function notifyListners(){
-    for (var j=0;j=listners.length;j++){
+    for (let j=0;j=listners.length;j++){
         if(listners[j]!=undefined) {
             listners[j].sendUTF(JSON.stringify([{lat: 8.742579, lng: 80.288086, name: "dr1"}, {
                 lat: 8.118373,
@@ -67,7 +110,7 @@ function notifyListners(){
 
 wsServer.on('request', function(request) {
 
-    var connection = request.accept('dronelink', request.origin);
+    let connection = request.accept('dronelink', request.origin);
     console.log((new Date()) + ' Connection accepted.');
     connection.on('message', function(message) {
         if (message.type === 'utf8') {
