@@ -35,7 +35,7 @@ class MyClientProtocol(WebSocketClientProtocol):
                     #self.sendMessage(b"\x00\x01\x03\x04", isBinary=True)
                     yield sleep(0.5)
             except:
-                print "unhandled error"
+                print ("unhandled error")
 
     def onMessage(self, payload, isBinary):
         if isBinary:
@@ -93,7 +93,7 @@ def getSerialData(data,aes,error):
         
         if len(data[10:42]) == 32:
             plain = aes.decrypt(data[10:42])
-            print plain
+            print (plain)
             lat = float(plain[1:10])
             lng = float(plain[11:20])
 
@@ -120,8 +120,8 @@ if __name__ == '__main__':
 
     files = [f for f in os.listdir('/dev/') if re.match(r'ttyUSB', f)]
     for i in files:
-        print i
-    device='/dev/ttyUSB'+raw_input("port number : ")
+        print (i)
+    device='/dev/ttyUSB'+input("port number : ")
 
     key = bytearray(
         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
