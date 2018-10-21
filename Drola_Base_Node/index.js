@@ -2,7 +2,7 @@ var express = require("express");
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 //var re=require("socket");
-//var CronJob = require('cron').CronJob;
+var CronJob = require('cron').CronJob;
 
 var app = express();
 app.use(cookieParser());
