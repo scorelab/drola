@@ -21,7 +21,8 @@
     "mongoose": "^4.10.8",
     "node-schedule": "^1.2.3",
     "websocket": "^1.0.24",
-    "xtend": "^4.0.1"
+    "xtend": "^4.0.1",
+    "cron": "^1.4.1"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
