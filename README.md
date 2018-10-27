@@ -17,13 +17,18 @@ Setup the units according to the shematics given in the `LoRa_End_Node`. End nod
    ```
    npm start
    ```
-3) Start the Websocket server and Websocket client to see the the end node locations in the browser application
+3) Install neccessary python packages for websocket server and client
+   ```
+   cd Drola_Base_Node/api
+   pip install -r requirements.txt
+   ```
+4) Start the Websocket server and Websocket client to see the the end node locations in the browser application
    ```
    cd Drola_Base_Node/api
    python socket_server.py
    python read_serial.py
    ```
-4) Go to http://localhost:3000/ in your browser to see all the locations of the Live End Nodes.
+5) Go to http://localhost:3000/ in your browser to see all the locations of the Live End Nodes.
 
 **Note:** You can test the api by running `socket_client.py` instead of `read_serial.py`. It will show you some hard-coded locations. Trusted zones are not implemented yet to protect AES keys. The keys are hardcoded in this version.
   

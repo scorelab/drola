@@ -5,7 +5,7 @@ Namal Jayasuriya
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>DroLa Admin Pannel</title>
+<title>DroLa Admin Panel</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content=" drola admin pannel" />
@@ -30,12 +30,20 @@ Namal Jayasuriya
 		 new WOW().init();
 	</script>
 <!--//end-animate-->
-<!----webfonts--->clear
+<!---webfonts--->clear
 
 <link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
 <!---//webfonts---> 
  <!-- Meters graphs -->
 <script src="js/jquery-1.10.2.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+   crossorigin=""/>
+
+<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+   integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+   crossorigin=""></script> 
 <!-- Placed js at the end of the document so the pages load faster -->
 
 </head> 
@@ -52,6 +60,8 @@ Namal Jayasuriya
 			<div class="logo-icon text-center">
 				<a href="index.html"><i class="lnr lnr-home"></i> </a>
 			</div>
+
+
 
 			<!--logo and iconic logo end-->
 			<div class="left-side-inner">
@@ -157,9 +167,10 @@ Namal Jayasuriya
 			<!--notification menu end -->
 			</div>
 
-			<div class="col-md-4 span_8 scrollbar" style="width: 100%; height: 1000px" id="maploaded"> </div>
+			<div class="col-md-4 span_8 scrollbar" style="width: 100%; height: 1000px; z-index: 1" id="mapid"></div>
+			
 
-				</div>
+
 			<!--body wrapper start-->
 			</div>
 			 <!--body wrapper end-->
@@ -178,26 +189,22 @@ Namal Jayasuriya
 <!-- Bootstrap Core JavaScript -->
    <script src="js/bootstrap.min.js"></script>
 
-	<script>
-        function initMap() {
-            var home ={ lat:6.827059, lng:80.152336};
-            var uoc_ground = {lat:6.900824,lng:79.860342};//6.900824, 79.860342
-            var akurala ={lat:6.207258,lng:80.062729}
-            map = new google.maps.Map(document.getElementById("maploaded"), {
-                zoom: 18,
-                center: uoc_ground//akurala//uoc_ground
-            });
-            geocoder = new google.maps.Geocoder;
-
-
-        }
-	</script>
-	<script async defer
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkHhuEUMXW6ActUczGPk_JCTEdh8_njw0&callback=initMap">
-	</script>
-
+	
      <script type="text/javascript" 
         src="https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/web_socket.js">
+     </script>
+
+     <script type="text/javascript">
+     	var home = { lat:6.827059, lng:80.152336, zoom:10};
+     	var mymap = L.map('mapid').setView([home["lat"], home["lng"]], home["zoom"]);
+
+
+     	L.tileLayer( 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+   	 		subdomains: ['a','b','c']
+		}).addTo( mymap );
+
+     	
      </script>
 
 	<script type="text/javascript">
@@ -214,32 +221,24 @@ Namal Jayasuriya
 
                 //var dt=getDrone(data);
                 if(drones.hasOwnProperty(data.name)){
-                    var pos = new google.maps.LatLng( data.lat, data.lng );
-                	console.log(data.name,data.lat,data.lng);
-                    drones[data.name]["marker"].setPosition( pos );
+                  
+                    var newpos = new L.LatLng(data.lat, data.lng) 
+                    mymap.setView(newpos);
+                    drones[data.name]["marker"].setLatLng( newpos );
 
-                    var path = drones[data.name]["path"].getPath();
-					path.push(pos);
-					drones[data.name]["path"].setPath(path);
-
+                    var path = drones[data.name]["path"].getLatLngs();
+					path.push(newpos);
+					drones[data.name]["path"].setLatLngs(path);
 				}
 				else{
-                    var pos = new google.maps.LatLng( data.lat, data.lng );
-                    var path = [pos]
-                    var marker = new google.maps.Marker({
-                        position: pos,
-                        label: data.name,
-						title: "Last Seen",
-                        map: map
-                    });
-                    var flightPath = new google.maps.Polyline({
-							path: path,
-							strokeColor: colors.pop(),
-							strokeOpacity: 0.8,
-							strokeWeight: 4
-						});
+					var newpos = new L.LatLng(data.lat, data.lng) 
+                    mymap.panTo(newpos);
+                    var path = [newpos]
 
-            		flightPath.setMap(map);
+                    var marker = L.marker({lat: data.lat, lng: data.lng}, {title:"Last Seen"}).addTo(mymap);
+               
+                    var flightPath = L.polyline(path, {color: colors.pop(), weight:4, opacity:0.8}).addTo(mymap);
+
                     //console.log("dt==null", data.name,data.lat,data.lng);
 					var drone = {
 					    "marker" : marker,
