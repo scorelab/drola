@@ -1,13 +1,13 @@
 {
-  "name": "webapp",
+  "name": "Drola-webapp",
   "version": "1.0.0",
-  "description": "",
+  "description": "Web interface of Drola , A Drone Monitering System using LORA",
   "main": "socket.js",
   "scripts": {
     "start": "node index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "ScoreLab",
+  "license": "Apache-2.0",
   "dependencies": {
     "body-parser": "^1.17.2",
     "connect": "^3.6.2",
