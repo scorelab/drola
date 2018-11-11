@@ -1,0 +1,4 @@
+Twisted
+autobahn
+pycrypto
+pyserial
