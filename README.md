@@ -1,7 +1,7 @@
 ﻿# Drola
 A Drone Monitoring System using LORA
 
-We are introducing a seperate hardware unit for drones which can easily mount on any kind of non-commercial drone. DroLa End node consists of a GPS module, microcontroller, LoRa module and a seperate battery.
+We are introducing a separate hardware unit for drones which can easily mount on any kind of non-commercial drone. DroLa End node consists of a GPS module, microcontroller, LoRa module and a seperate battery.
 
 ### Setting up Drola End Node
 Setup the units according to the schematics given in the `LoRa_End_Node`. The End node microcontroller should contain the given firmware. The communication channel and addresses of Lora modules should be according to the given firmware.
@@ -17,7 +17,7 @@ Setup the units according to the schematics given in the `LoRa_End_Node`. The En
    ```
    npm start
    ```
-3) Start the Websocket server and Websocket client to see the the end node locations in the browser application.
+3) Start the Websocket server and Websocket client to see the end node locations in the browser application.
    ```
    cd Drola_Base_Node/api
    python socket_server.py
@@ -34,4 +34,4 @@ Setup the units according to the schematics given in the `LoRa_End_Node`. The En
 ![End Node](/LoRa_End_Node/Drola_end_node.jpg?raw=true "Drole End Node")
 <hr>
 
-For more informationa please refer the [Wiki](https://github.com/NamalJayasuriya/drola/wiki/Drola) page.
+For more information please refer the [Wiki](https://github.com/NamalJayasuriya/drola/wiki/Drola) page.
