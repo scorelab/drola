@@ -23,7 +23,7 @@ Setup the units according to the schematics given in the `LoRa_End_Node`. The En
    python socket_server.py
    python read_serial.py
    ```
-4) Go to [localhost](http://localhost:3000/) in your browser to see all the locations of the Live End Nodes.
+4) Go to http://localhost:3000/ in your browser to see all the locations of the Live End Nodes.
 
 **Note:** You can test the api by running `socket_client.py` instead of `read_serial.py`. It will show you some hard-coded locations. Trusted zones are not implemented yet to protect AES keys. The keys are hardcoded in this version.
   
