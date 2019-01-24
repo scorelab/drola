@@ -12,6 +12,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
  <!-- Bootstrap Core CSS -->
 <link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
@@ -31,7 +32,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="js/wow.min.js"></script>
 	<script>
 		 new WOW().init();
+
+		 function clicked() {
+    var x = document.getElementById("myinp");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+
 	</script>
+	
 <!--//end-animate-->
 <!----webfonts--->
 <link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
@@ -42,43 +54,46 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 </head> 
    
- <body class="sign-in-up">
+ <body class="sign-in-up" id="sign-in">
     <section>
 			<div id="page-wrapper" class="sign-in-wrapper">
 				<div class="graphs">
 					<div class="sign-in-form">
 						<div class="sign-in-form-top">
-							<p><span>Sign In to</span> <a href="index.html">Admin</a></p>
+							<p><span>Sign in to</span> <a href="index.html">Admin</a></p>
 						</div>
 						<div class="signin">
-							<div class="signin-rit">
-								<span class="checkbox1">
-									 <label class="checkbox"><input type="checkbox" name="checkbox" checked="">Forgot Password ?</label>
-								</span>
-								<p><a href="#">Click Here</a> </p>
-								<div class="clearfix"> </div>
-							</div>
 							<form action="doLogin" method="post">
 							<div class="log-input">
 								<div class="log-input-left">
-								   <input type="text" name="uname" class="user" value="Yourname" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email address:';}"/>
+								   <input type="text" name="uname" class="user" placeholder="Email Address" required />
 								</div>
 								<span class="checkbox2">
-									 <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i></label>
+									<!-- <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i></label> -->
 								</span>
 								<div class="clearfix"> </div>
 							</div>
 							<div class="log-input">
 								<div class="log-input-left">
-								   <input type="password" name="pwd" class="lock" value="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email address:';}"/>
+								   <input type="password" name="pwd" class="lock" id="myinp" placeholder="Password" required />
+								    <img class="reveal" src="images/passrev.png" onclick="clicked()" >
 								</div>
 								<span class="checkbox2">
-									 <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i></label>
+									<!-- <label class="checkbox"><i> </i></label> -->
 								</span>
 								<div class="clearfix"> </div>
 							</div>
 							<input type="submit" value="Login to your account">
 						</form>	 
+						<div class="signin-rit">
+								<span class="checkbox1">
+									 <p>Don't have an account?  <a href='sign-up.html'>Sign Up</a> || <a href="#">Forgot Password?</a></p>
+								</span><hr>
+								<button class="loginBtn loginBtn--facebook"> Login with Facebook</button>
+                                <button class="loginBtn loginBtn--google">Login with Google</button>
+								<!--<p><a href="#">Click Here</a> </p> -->
+								<div class="clearfix"> </div>
+							</div>
 						</div>
 						<div class="new_people dontshow">
 							<h4>For New People</h4>
